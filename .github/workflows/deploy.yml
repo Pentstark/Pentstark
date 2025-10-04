@@ -1,4 +1,4 @@
-name: Build & Deploy to Hostinger
+name: Incremental Build & Deploy to Hostinger
 
 on:
   push:
@@ -10,93 +10,65 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    # 1️⃣ Checkout code
+    # 1️⃣ Checkout repository
     - name: Checkout repository
       uses: actions/checkout@v4
 
-    # 2️⃣ Check disk space before starting
-    - name: Check initial disk space
-      run: df -h
-
-    # 3️⃣ Setup Node.js
+    # 2️⃣ Setup Node.js
     - name: Setup Node.js
       uses: actions/setup-node@v4
       with:
         node-version: '18'
 
-    # 4️⃣ Clean npm cache
+    # 3️⃣ Clean npm cache to save runner space
     - name: Clean npm cache
       run: npm cache clean --force
 
-    # 5️⃣ Install dependencies (without caching to save disk space)
+    # 4️⃣ Install dependencies
     - name: Install dependencies
       run: npm ci
 
-    # 6️⃣ Build project
+    # 5️⃣ Build project
     - name: Build project
       run: npm run build
 
-    # 7️⃣ Verify build output
-    - name: Check dist folder exists
+    # 6️⃣ Verify dist folder exists
+    - name: Check dist folder
       run: |
         if [ ! -d "dist" ]; then
           echo "❌ Build failed: dist folder not found!"
           exit 1
-        else
-          echo "✅ Build folder exists."
         fi
 
-    # 8️⃣ Check disk space after build
-    - name: Check disk space post-build
-      run: df -h
-
-    # 9️⃣ Setup SSH agent
+    # 7️⃣ Setup SSH
     - name: Setup SSH
       uses: webfactory/ssh-agent@v0.9.0
       with:
         ssh-private-key: ${{ secrets.HOSTINGER_SSH_KEY }}
 
-    # 🔟 Prepare Hostinger deployment (clear & create folders)
-    - name: Prepare Hostinger deployment
+    # 8️⃣ Incremental deployment of dist folder
+    - name: Deploy dist folder incrementally
       env:
-        DEPLOY_PATH: /home/u452452192/domains/safeproduction.pentstark.com
+        DEPLOY_PATH: /home/u452452192/domains/safeproduction.pentstark.com/public_html
       run: |
-        ssh -p 65002 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null u452452192@147.93.109.200 "set -e && \
-          echo '🚀 Starting deployment...' && \
-          rm -rf $DEPLOY_PATH/* && \
-          mkdir -p $DEPLOY_PATH/public_html"
+        echo "🚀 Deploying only changed files..."
+        rsync -avz --checksum --progress --exclude='.git' -e "ssh -p 65002 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" dist/ u452452192@147.93.109.200:$DEPLOY_PATH/
 
-    # 1️⃣1️⃣ Upload dist folder
-    - name: Upload dist folder
+    # 9️⃣ Optional: deploy other repo files (excluding dist)
+    - name: Deploy remaining repo files incrementally
       env:
-        DEPLOY_PATH: /home/u452452192/domains/safeproduction.pentstark.com
+        DEPLOY_PATH: /home/u452452192/domains/safeproduction.pentstark.com/public_html/main
       run: |
-        echo "📦 Uploading dist folder..."
-        rsync -avz --delete -e "ssh -p 65002 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" dist/ u452452192@147.93.109.200:$DEPLOY_PATH/public_html/
-
-    # 1️⃣2️⃣ Deploy remaining code to public_html/main
-    - name: Deploy remaining code to public_html/main
-      env:
-        DEPLOY_PATH: /home/u452452192/domains/safeproduction.pentstark.com
-      run: |
-        echo "📂 Deploying remaining files..."
         mkdir temp_deploy
         rsync -av --exclude='dist' ./ temp_deploy/
+        ssh -p 65002 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null u452452192@147.93.109.200 "mkdir -p $DEPLOY_PATH"
+        rsync -avz -e "ssh -p 65002 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" temp_deploy/ u452452192@147.93.109.200:$DEPLOY_PATH/
+        rm -rf temp_deploy
 
-        ssh -p 65002 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null u452452192@147.93.109.200 "mkdir -p $DEPLOY_PATH/public_html/main"
+    # 🔟 Cleanup local build folder to save runner space
+    - name: Cleanup local build folder
+      run: rm -rf dist
 
-        rsync -avz -e "ssh -p 65002 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" temp_deploy/ u452452192@147.93.109.200:$DEPLOY_PATH/public_html/main/
-
-    # 1️⃣3️⃣ Cleanup temporary folder and dist
-    - name: Cleanup temporary and build folders
-      run: |
-        echo "🧹 Cleaning temp folders..."
-        rm -rf temp_deploy dist
-
-    # 1️⃣4️⃣ Final disk space check
-    - name: Final disk space check
-      run: df -h
-
-    # 1️⃣5️⃣ Final deployment message
+    # 1️⃣1️⃣ Final deployment message
     - name: Deployment complete
-      run: echo "✅ Deployment finished successfully!"
+      run: echo "✅ Incremental deployment finished successfully!"

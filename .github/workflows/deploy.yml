@@ -46,8 +46,8 @@ jobs:
       with:
         ssh-private-key: ${{ secrets.HOSTINGER_SSH_KEY }}
 
-     # 8️⃣ Deploy to Hostinger (reset & redeploy)
-    - name: Deploy to Hostinger (reset & redeploy)
+
+    - name: Deploy to Hostinger (clean & redeploy)
       env:
         BASE_PATH: /home/u452452192/domains/safeproduction.pentstark.com
         PUBLIC_PATH: /home/u452452192/domains/safeproduction.pentstark.com/public_html
@@ -62,36 +62,37 @@ jobs:
         echo "📦 Creating repo zip (excluding dist)..."
         zip -r repo.zip . -x "dist/*" ".git/*" "node_modules/*"
 
-        echo "🚀 Uploading repo zip..."
-        scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -P 65002 repo.zip \
-          u452452192@147.93.109.200:$BASE_PATH/repo.zip
-
-        echo "🚀 Uploading dist files..."
-        ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -p 65002 \
-          u452452192@147.93.109.200 "mkdir -p $BASE_PATH/dist_temp"
-
-        rsync -avz --checksum --progress \
-          -e "ssh -p 65002 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" \
-          dist/ u452452192@147.93.109.200:$BASE_PATH/dist_temp/
-
-        echo "🚀 Setting up remote structure..."
+        echo "🚀 Cleaning remote server..."
         ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -p 65002 \
           u452452192@147.93.109.200 "
             set -e
-            echo '🧹 Cleaning base path...'
             rm -rf $BASE_PATH/*
-
-            echo '📂 Creating fresh structure...'
             mkdir -p $PUBLIC_PATH
             mkdir -p $MAIN_PATH
+            mkdir -p $BASE_PATH/uploads
+          "
+
+        echo "🚀 Uploading repo zip..."
+        scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -P 65002 repo.zip \
+          u452452192@147.93.109.200:$BASE_PATH/uploads/repo.zip
+
+        echo "🚀 Uploading dist files..."
+        rsync -avz --checksum --progress \
+          -e "ssh -p 65002 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" \
+          dist/ u452452192@147.93.109.200:$BASE_PATH/uploads/dist_temp/
+
+        echo "🚀 Finalizing setup on server..."
+        ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -p 65002 \
+          u452452192@147.93.109.200 "
+            set -e
 
             echo '📦 Moving dist files to public_html...'
-            mv $BASE_PATH/dist_temp/* $PUBLIC_PATH/ || echo '⚠️ No dist files found to move'
-            rm -rf $BASE_PATH/dist_temp
+            mv $BASE_PATH/uploads/dist_temp/* $PUBLIC_PATH/
 
             echo '📦 Extracting repo into main...'
-            unzip -o $BASE_PATH/repo.zip -d $MAIN_PATH
-            rm $BASE_PATH/repo.zip
+            unzip -o $BASE_PATH/uploads/repo.zip -d $MAIN_PATH
+            rm $BASE_PATH/uploads/repo.zip
+            rm -rf $BASE_PATH/uploads/dist_temp
 
             # Node.js install if missing
             if [ ! -d \"\$HOME/node\" ]; then

@@ -14,7 +14,7 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v4
 
-    # 2️⃣ Setup Node
+    # 2️⃣ Setup Node.js
     - name: Setup Node.js
       uses: actions/setup-node@v4
       with:
@@ -43,23 +43,17 @@ jobs:
       with:
         ssh-private-key: ${{ secrets.HOSTINGER_PRIVATE_SSH_KEY }}
 
-    # 7️⃣ Deploy to Hostinger (clear & prepare folders)
+    # 7️⃣ Prepare Hostinger deployment (clear & create folders)
     - name: Prepare Hostinger deployment
       env:
         HOST: ${{ secrets.HOSTINGER_IP }}
         USER: ${{ secrets.HOSTINGER_USER }}
         DEPLOY_PATH: /home/u452452192/domains/safeproduction.pentstark.com
       run: |
-        ssh -o StrictHostKeyChecking=no $USER@$HOST << 'EOF'
-          set -e
-          echo "🚀 Starting deployment..."
-
-          # Remove old files
-          rm -rf $DEPLOY_PATH/*
-
-          # Prepare public_html
-          mkdir -p $DEPLOY_PATH/public_html
-EOF
+        ssh -o StrictHostKeyChecking=no $USER@$HOST "set -e && \
+          echo '🚀 Starting deployment...' && \
+          rm -rf $DEPLOY_PATH/* && \
+          mkdir -p $DEPLOY_PATH/public_html"
 
     # 8️⃣ Upload the .dist folder
     - name: Upload .dist folder

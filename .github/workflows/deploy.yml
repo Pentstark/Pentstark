@@ -37,13 +37,23 @@ jobs:
     - name: Build project
       run: npm run build
 
-    # 6️⃣ Setup SSH agent
+    # 6️⃣ Verify build output
+    - name: Check dist folder exists
+      run: |
+        if [ ! -d "dist" ]; then
+          echo "❌ Build failed: dist folder not found!"
+          exit 1
+        else
+          echo "✅ Build folder exists."
+        fi
+
+    # 7️⃣ Setup SSH agent
     - name: Setup SSH
       uses: webfactory/ssh-agent@v0.9.0
       with:
         ssh-private-key: ${{ secrets.HOSTINGER_SSH_KEY }}
 
-    # 7️⃣ Prepare Hostinger deployment (clear & create folders)
+    # 8️⃣ Prepare Hostinger deployment (clear & create folders)
     - name: Prepare Hostinger deployment
       env:
         DEPLOY_PATH: /home/u452452192/domains/safeproduction.pentstark.com
@@ -53,29 +63,31 @@ jobs:
           rm -rf $DEPLOY_PATH/* && \
           mkdir -p $DEPLOY_PATH/public_html"
 
-    # 8️⃣ Upload the .dist folder
-    - name: Upload .dist folder
+    # 9️⃣ Upload the dist folder
+    - name: Upload dist folder
       env:
         DEPLOY_PATH: /home/u452452192/domains/safeproduction.pentstark.com
       run: |
-        rsync -avz --delete -e "ssh -p 65002 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" .dist/ u452452192@147.93.109.200:$DEPLOY_PATH/public_html/
+        echo "📦 Uploading dist folder..."
+        rsync -avz --delete -e "ssh -p 65002 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" dist/ u452452192@147.93.109.200:$DEPLOY_PATH/public_html/
 
-    # 9️⃣ Deploy remaining code to public_html/main
+    # 🔟 Deploy remaining code to public_html/main
     - name: Deploy remaining code to public_html/main
       env:
         DEPLOY_PATH: /home/u452452192/domains/safeproduction.pentstark.com
       run: |
+        echo "📂 Deploying remaining files..."
         mkdir temp_deploy
-        rsync -av --exclude='.dist' ./ temp_deploy/
+        rsync -av --exclude='dist' ./ temp_deploy/
 
         ssh -p 65002 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null u452452192@147.93.109.200 "mkdir -p $DEPLOY_PATH/public_html/main"
 
         rsync -avz -e "ssh -p 65002 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" temp_deploy/ u452452192@147.93.109.200:$DEPLOY_PATH/public_html/main/
 
-    # 🔟 Cleanup temporary folder
+    # 1️⃣1️⃣ Cleanup temporary folder
     - name: Cleanup
       run: rm -rf temp_deploy
 
-    # 1️⃣1️⃣ Final deployment message
+    # 1️⃣2️⃣ Final deployment message
     - name: Deployment complete
       run: echo "✅ Deployment finished successfully!"

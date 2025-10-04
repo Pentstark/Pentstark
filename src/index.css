@@ -1,0 +1,893 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500;600;700&family=Fira+Code:wght@300;400;500;600;700&family=Roboto+Mono:wght@300;400;500;700&family=Orbitron:wght@400;500;700;900&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+    --primary: 221.2 83.2% 53.3%;
+    --primary-foreground: 210 40% 98%;
+    --secondary: 210 40% 96%;
+    --secondary-foreground: 222.2 84% 4.9%;
+    --muted: 210 40% 96%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+    --accent: 210 40% 96%;
+    --accent-foreground: 222.2 84% 4.9%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 221.2 83.2% 53.3%;
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+    --primary: 217.2 91.2% 59.8%;
+    --primary-foreground: 222.2 84% 4.9%;
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 224.3 76.3% 94.1%;
+  }
+}
+
+/* Glassmorphism Theme - Static Only */
+
+/* Enhanced Glassmorphism utilities - No animations */
+.glass-morphism {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(40px) saturate(160%);
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.3),
+    0 1px 0 rgba(255, 255, 255, 0.1) inset;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.glass-morphism:hover {
+  background: rgba(255, 255, 255, 0.08);
+  box-shadow: 
+    0 12px 48px rgba(0, 0, 0, 0.4),
+    0 1px 0 rgba(255, 255, 255, 0.15) inset;
+}
+
+.glass-button {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px) saturate(120%);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+}
+
+.glass-button:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+.gradient-bg {
+  background: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
+}
+
+/* Custom color classes for glassmorphism theme */
+.text-glass-white { color: rgba(255, 255, 255, 0.95); }
+.text-glass-muted { color: rgba(255, 255, 255, 0.7); }
+.text-glass-blue { color: hsl(217, 91%, 60%); }
+.bg-glass-light { background-color: rgba(255, 255, 255, 0.1); }
+.bg-glass-dark { background-color: rgba(0, 0, 0, 0.1); }
+
+/* Clean gradient background */
+.gradient-bg {
+  background: linear-gradient(135deg, 
+    var(--gradient-start) 0%, 
+    var(--gradient-middle) 50%, 
+    var(--gradient-end) 100%);
+  background-size: 100% 100%;
+}
+
+:root {
+  --background: 270 15% 6%; /* Deep Dark Purple */
+  --foreground: 270 15% 95%; /* Light Lavender/Off-white */
+
+  --card: 270 15% 9%; /* Slightly Lighter Dark Purple */
+  --card-foreground: 270 15% 90%;
+
+  --popover: 270 15% 8%;
+  --popover-foreground: 270 15% 90%;
+
+  --primary: 280 100% 60%; /* Vibrant Purple (PentStark Brand) */
+  --primary-foreground: 270 15% 95%;
+
+  --secondary: 330 100% 55%; /* Hot Pink/Magenta Accent */
+  --secondary-foreground: 270 15% 95%;
+
+  --muted: 270 10% 25%; /* Muted Purple-Gray */
+  --muted-foreground: 270 10% 65%;
+
+  --accent: 300 100% 65%; /* Lighter Purple/Pink for accents */
+  --accent-foreground: 270 15% 5%;
+
+  --destructive: 0 70% 55%; /* Red for errors */
+  --destructive-foreground: 270 15% 95%;
+
+  --input: 270 15% 12%; /* Dark Purple Input Background */
+  --ring: 280 100% 65%; /* Purple ring for focus */
+
+  --radius: 0.5rem; /* Slightly more rounded */
+
+  /* Clean gradient colors - Matching #161420 background */
+  --gradient-start: #161420;
+  --gradient-middle: #161420;
+  --gradient-end: #161420;
+}
+
+html, body, #root {
+  background: linear-gradient(135deg, var(--gradient-start) 0%, var(--gradient-middle) 50%, var(--gradient-end) 100%);
+  background-attachment: fixed;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  min-height: 100vh;
+  position: relative;
+  scroll-behavior: smooth;
+}
+
+/* Simple background without animations */
+html::before, body::before {
+  display: none;
+}
+
+/* Enhanced background utility class */
+.pentstark-bg {
+  background: linear-gradient(135deg, var(--gradient-start) 0%, var(--gradient-middle) 50%, var(--gradient-end) 100%) !important;
+  background-attachment: fixed !important;
+}
+
+body {
+  background-color: hsl(var(--background));
+  color: hsl(var(--foreground));
+  font-family: 'Poppins', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  position: relative;
+}
+
+
+
+h1, h2, h3, h4, h5, h6, .font-orbitron {
+  font-family: 'Orbitron', sans-serif; /* Futuristic font for headings */
+  letter-spacing: -0.01em;
+}
+
+.font-mono {
+  font-family: 'Roboto Mono', monospace;
+}
+
+/* Enhanced text effects */
+.text-glow-primary {
+  text-shadow: 
+    0 0 10px hsl(var(--primary) / 0.8), 
+    0 0 20px hsl(var(--primary) / 0.6),
+    0 0 30px hsl(var(--primary) / 0.4);
+}
+
+.text-glow-secondary {
+  text-shadow: 
+    0 0 10px hsl(var(--secondary) / 0.8), 
+    0 0 20px hsl(var(--secondary) / 0.6),
+    0 0 30px hsl(var(--secondary) / 0.4);
+}
+
+/* Enhanced glass effect utilities - No animations */
+.glass-effect-purple {
+  background: 
+    linear-gradient(135deg, 
+      rgba(255, 255, 255, 0.05) 0%, 
+      rgba(255, 255, 255, 0.02) 50%, 
+      rgba(255, 255, 255, 0.05) 100%),
+    hsl(var(--card) / 0.7);
+  backdrop-filter: blur(20px) saturate(180%);
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.3),
+    0 1px 0 rgba(255, 255, 255, 0.1) inset;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Card effects */
+.card-border-glow-purple {
+  position: relative;
+  transition: box-shadow 0.3s ease;
+}
+
+.card-border-glow-purple:hover {
+  box-shadow: 0 0 18px hsl(var(--primary) / 0.35), 0 0 36px hsl(var(--primary) / 0.15);
+}
+
+/* Button effects */
+.button-3d-hover-purple {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.button-3d-hover-purple:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 10px hsl(var(--primary) / 0.35);
+}
+
+.button-3d-hover-purple:active {
+  transform: translateY(0px);
+  box-shadow: 0 2px 5px hsl(var(--primary) / 0.25);
+}
+
+/* Static text gradient - No animations */
+.animated-gradient-text-purple {
+  background: linear-gradient(90deg, 
+    hsl(var(--primary)), 
+    hsl(var(--secondary)), 
+    hsl(var(--accent)), 
+    hsl(var(--primary))
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Static enterprise text gradient - No animations */
+.enterprise-text-gradient {
+  background: linear-gradient(135deg, 
+    hsl(var(--primary)) 0%, 
+    hsl(var(--secondary)) 50%, 
+    hsl(var(--accent)) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+.terminal-style-purple {
+  background-color: hsl(var(--input)); /* Darker for terminal */
+  border: 1px solid hsl(var(--border));
+  border-radius: var(--radius);
+  padding: 1.25rem;
+  font-family: 'Roboto Mono', monospace;
+  color: hsl(var(--foreground));
+  box-shadow: 0 4px 15px rgba(0,0,0,0.25);
+}
+
+/* Custom scrollbar for better theming */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: hsl(var(--background));
+}
+::-webkit-scrollbar-thumb {
+  background: hsl(var(--muted));
+  border-radius: var(--radius);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: hsl(var(--primary));
+}
+
+/* Utility: visible, themed horizontal scrollbar for scrollable rows */
+.scrollbar-visible {
+  -webkit-overflow-scrolling: touch; /* smooth scrolling on iOS */
+  scrollbar-width: thin; /* Firefox */
+  scrollbar-color: hsl(var(--muted)) transparent; /* Firefox */
+}
+.scrollbar-visible::-webkit-scrollbar {
+  height: 8px; /* horizontal scrollbar height */
+}
+.scrollbar-visible::-webkit-scrollbar-track {
+  background: transparent;
+}
+.scrollbar-visible::-webkit-scrollbar-thumb {
+  background: hsl(var(--muted));
+  border-radius: 9999px;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+.scrollbar-visible::-webkit-scrollbar-thumb:hover {
+  background: hsl(var(--primary));
+}
+
+/* Remove old Clerk styles to avoid conflicts with new theme */
+.cl-rootBox,
+.cl-card,
+.cl-main {
+  /* Reset any conflicting styles */
+}
+
+/* Ensure Clerk modals work properly with new theme */
+.cl-rootBox {
+  z-index: 9999 !important;
+}
+
+.cl-card {
+  border-radius: 12px !important;
+  overflow: hidden !important;
+}
+
+/* Hide "Secured by clerk" footer and "Development mode" text */
+.cl-footer,
+.cl-footerActionText,
+.cl-debugMode,
+[data-clerk-footer],
+[data-clerk-debug-mode] {
+  display: none !important;
+}
+
+/* Hide any clerk branding elements */
+.cl-clerkBranding,
+[data-clerk-branding] {
+  display: none !important;
+}
+
+/* Apply Orbitron font to all Clerk elements */
+.cl-rootBox,
+.cl-card,
+.cl-headerTitle,
+.cl-headerSubtitle,
+.cl-formFieldLabel,
+.cl-formFieldInput,
+.cl-formButtonPrimary,
+.cl-socialButtonsBlockButton,
+.cl-socialButtonsBlockButtonText,
+.cl-dividerText,
+.cl-footerActionLink,
+.cl-footerActionText,
+.cl-formFieldErrorText,
+.cl-formFieldSuccessText,
+.cl-alternativeMethodsBlockButton,
+.cl-identityPreviewText,
+.cl-identityPreviewEditButton,
+[data-clerk-component] {
+  font-family: "Orbitron", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+}
+
+/* Ensure input placeholders also use Orbitron */
+.cl-formFieldInput::placeholder {
+  font-family: "Orbitron", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+}
+
+/* Perfect title styling with bright pink gradient */
+.cl-headerTitle {
+  background: linear-gradient(135deg, hsl(330, 100%, 60%), hsl(330, 100%, 70%)) !important;
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  text-align: center !important;
+  margin-bottom: 0.5rem !important;
+  font-size: clamp(1.5rem, 4vw, 1.875rem) !important;
+  font-weight: 700 !important;
+  filter: drop-shadow(0 2px 8px rgba(255, 64, 129, 0.3)) !important;
+}
+
+.cl-headerSubtitle {
+  text-align: center !important;
+  margin-bottom: 2rem !important;
+  opacity: 0.9 !important;
+  color: hsl(270, 10%, 75%) !important;
+  font-weight: 400 !important;
+}
+
+/* Glass effect social buttons */
+.cl-socialButtonsBlock {
+  margin-bottom: 2rem !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 0.75rem !important;
+}
+
+.cl-socialButtonsBlockButton {
+  margin-bottom: 0 !important;
+  width: 100% !important;
+  justify-content: center !important;
+  background: rgba(255, 255, 255, 0.08) !important;
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  backdrop-filter: blur(10px) !important;
+  min-height: 52px !important;
+}
+
+.cl-socialButtonsBlockButton:hover {
+  background: rgba(255, 255, 255, 0.12) !important;
+  border-color: hsl(330, 100%, 60%) !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15) !important;
+}
+
+/* Clean divider with transparency */
+.cl-dividerLine {
+  background: rgba(255, 255, 255, 0.2) !important;
+  margin: 2rem 0 !important;
+  height: 1px !important;
+}
+
+.cl-dividerText {
+  background: transparent !important;
+  padding: 0 1.5rem !important;
+  font-size: 0.875rem !important;
+  text-transform: lowercase !important;
+  color: hsl(270, 10%, 75%) !important;
+  font-weight: 400 !important;
+}
+
+/* White transparent input fields */
+.cl-formFieldInput {
+  background: rgba(255, 255, 255, 0.95) !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  color: hsl(270, 15%, 15%) !important;
+  backdrop-filter: blur(10px) !important;
+  min-height: 52px !important;
+  border-radius: 8px !important;
+}
+
+.cl-formFieldInput::placeholder {
+  color: hsl(270, 10%, 45%) !important;
+  opacity: 1 !important;
+  font-weight: 400 !important;
+}
+
+.cl-formFieldInput:focus {
+  background: rgba(255, 255, 255, 1) !important;
+  border-color: hsl(330, 100%, 60%) !important;
+  box-shadow: 0 0 0 3px rgba(255, 64, 129, 0.1) !important;
+}
+
+.cl-formFieldInput:hover:not(:focus) {
+  background: rgba(255, 255, 255, 0.98) !important;
+  border-color: rgba(255, 255, 255, 0.3) !important;
+}
+
+/* Enhanced primary button */
+.cl-formButtonPrimary {
+  background: hsl(330, 100%, 60%) !important;
+  box-shadow: 0 4px 20px rgba(255, 64, 129, 0.3) !important;
+  backdrop-filter: blur(10px) !important;
+  min-height: 52px !important;
+  font-size: 1rem !important;
+}
+
+.cl-formButtonPrimary:hover {
+  background: hsl(330, 100%, 55%) !important;
+  box-shadow: 0 8px 32px rgba(255, 64, 129, 0.4) !important;
+  transform: translateY(-2px) !important;
+}
+
+/* Form spacing adjustments */
+.cl-formFieldRow {
+  margin-bottom: 1.5rem !important;
+}
+
+.cl-formFieldLabel {
+  margin-bottom: 0.75rem !important;
+  font-size: 0.9375rem !important;
+  font-weight: 500 !important;
+}
+
+.cl-footer {
+  margin-top: 2rem !important;
+  padding-top: 1rem !important;
+}
+
+.cl-formButtonRow {
+  margin-top: 2rem !important;
+  margin-bottom: 1rem !important;
+}
+
+/* Mobile optimizations */
+@media (max-width: 640px) {
+  .cl-main {
+    padding: 2rem 1.5rem !important;
+  }
+  
+  .cl-headerTitle {
+    font-size: 1.5rem !important;
+    line-height: 2rem !important;
+  }
+  
+  .cl-socialButtonsBlockButton,
+  .cl-formFieldInput,
+  .cl-formButtonPrimary {
+    min-height: 48px !important;
+    font-size: 0.9375rem !important;
+  }
+}
+
+/* Accessibility and focus states */
+.cl-formFieldInput:focus,
+.cl-socialButtonsBlockButton:focus,
+.cl-formButtonPrimary:focus {
+  outline: none !important;
+}
+
+/* High contrast support */
+@media (prefers-contrast: high) {
+  .cl-headerTitle {
+    -webkit-text-fill-color: hsl(330, 100%, 60%) !important;
+    background: none !important;
+  }
+  
+  .cl-formFieldInput,
+  .cl-socialButtonsBlockButton {
+    border-width: 2px !important;
+  }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .cl-socialButtonsBlockButton,
+  .cl-formButtonPrimary,
+  .cl-formFieldInput {
+    transition: none !important;
+  }
+  
+  .cl-socialButtonsBlockButton:hover,
+  .cl-formButtonPrimary:hover {
+    transform: none !important;
+  }
+}
+
+/* Consistent spacing between sections */
+.cl-socialButtonsBlock {
+  margin-bottom: 1.5rem !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 0.75rem !important;
+}
+
+.cl-formFieldRow {
+  margin-bottom: 1rem !important;
+}
+
+.cl-footer {
+  margin-top: 1.25rem !important;
+  padding-top: 0.75rem !important;
+}
+
+.cl-formButtonRow {
+  margin-top: 1.25rem !important;
+  margin-bottom: 0.75rem !important;
+}
+
+/* Enhanced placeholder visibility */
+.cl-formFieldInput::placeholder {
+  color: hsl(270, 10%, 60%) !important;
+  opacity: 1 !important;
+  font-weight: 400 !important;
+}
+
+/* Better visual hierarchy for form sections */
+.cl-formFieldLabelRow {
+  margin-bottom: 0.75rem !important;
+}
+
+.cl-formButtonRow {
+  margin-top: 1.5rem !important;
+  margin-bottom: 1rem !important;
+}
+
+/* Consistent button styling across all button types */
+.cl-formButtonSecondary,
+.cl-formButtonReset {
+  background-color: hsl(270, 15%, 12%) !important;
+  border: 1px solid hsl(270, 15%, 20%) !important;
+  border-radius: 12px !important;
+  padding: 1rem 1.25rem !important;
+  color: hsl(270, 15%, 95%) !important;
+  font-size: clamp(0.875rem, 2.5vw, 0.9375rem) !important;
+  font-weight: 500 !important;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  cursor: pointer !important;
+  min-height: 48px !important;
+  backdrop-filter: blur(8px) !important;
+  box-shadow: 0 4px 12px hsl(0, 0%, 0% / 0.15) !important;
+}
+
+.cl-formButtonSecondary:hover,
+.cl-formButtonReset:hover {
+  background-color: hsl(270, 15%, 15%) !important;
+  border-color: hsl(280, 100%, 60%) !important;
+  transform: translateY(-1px) !important;
+  box-shadow: 0 6px 20px hsl(280, 100%, 60% / 0.15) !important;
+  color: hsl(280, 100%, 70%) !important;
+}
+
+.cl-formButtonSecondary:active,
+.cl-formButtonReset:active {
+  transform: translateY(0) !important;
+  box-shadow: 0 4px 12px hsl(280, 100%, 60% / 0.1) !important;
+}
+
+/* Consistent spacing for verification code inputs */
+.cl-formFieldInputGroup {
+  gap: 0.75rem !important;
+}
+
+/* Better visual separation for different form sections */
+.cl-alternativeMethodsBlock {
+  margin-top: 1.5rem !important;
+  padding-top: 1rem !important;
+  border-top: 1px solid hsl(270, 15%, 20%) !important;
+}
+
+/* Enhanced error state visibility */
+.cl-formFieldError {
+  margin-top: 0.5rem !important;
+  padding: 0.5rem 0.75rem !important;
+  background-color: hsl(0, 70%, 55% / 0.1) !important;
+  border-radius: 8px !important;
+  border-left: 3px solid hsl(0, 70%, 55%) !important;
+}
+
+/* Improved loading state positioning */
+.cl-loadingIcon {
+  margin: 0.5rem auto !important;
+  display: block !important;
+}
+
+/* High contrast mode */
+@media (prefers-contrast: high) {
+  .cl-formFieldInput,
+  .cl-socialButtonsBlockButton {
+    border-width: 2px !important;
+  }
+  
+  .cl-headerTitle {
+    -webkit-text-fill-color: hsl(270, 15%, 95%) !important;
+    background: none !important;
+  }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .cl-socialButtonsBlockButton::before,
+  .cl-formButtonPrimary::before,
+  .cl-footerActionLink::after,
+  .cl-formFieldInput:focus::after,
+  .cl-spinner {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+/* Dark mode specific enhancements */
+@media (prefers-color-scheme: dark) {
+  .cl-card {
+    backdrop-filter: blur(20px) !important;
+  }
+}
+
+/* Performance optimizations for modal animations */
+@layer utilities {
+  .glass-effect-purple {
+    will-change: backdrop-filter, transform;
+    contain: layout style paint;
+  }
+  
+  /* Smooth scrolling for modal content */
+  .cl-modalContent {
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  /* Better tap targets for mobile */
+  .cl-formButtonPrimary {
+    min-height: 48px !important;
+    touch-action: manipulation;
+  }
+  
+  .cl-footerActionLink {
+    min-height: 44px !important;
+    padding: 12px !important;
+    touch-action: manipulation;
+  }
+}
+
+/* High performance blur for supported browsers */
+@supports (backdrop-filter: blur(20px)) {
+  .glass-effect-purple {
+    backdrop-filter: blur(20px) saturate(180%);
+  }
+}
+
+/* Fallback for older browsers */
+@supports not (backdrop-filter: blur(20px)) {
+  .glass-effect-purple {
+    background: hsl(var(--background) / 0.95);
+  }
+}
+
+/* Dark mode enhancements */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --clerk-shadow-shimmer: hsl(var(--primary) / 0.1);
+  }
+}
+
+/* Enhanced Enterprise UI Components - No animations */
+.enterprise-card {
+  background: rgba(255, 255, 255, 0.02);
+  backdrop-filter: blur(20px) saturate(180%);
+  border-radius: 1.5rem;
+  box-shadow: 
+    0 20px 40px rgba(0, 0, 0, 0.1),
+    0 1px 0 rgba(255, 255, 255, 0.05) inset;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.enterprise-card:hover {
+  background: rgba(255, 255, 255, 0.04);
+  transform: translateY(-2px);
+  box-shadow: 
+    0 32px 64px rgba(0, 0, 0, 0.15),
+    0 0 0 1px rgba(255, 255, 255, 0.05),
+    0 1px 0 rgba(255, 255, 255, 0.08) inset;
+}
+
+/* Static enterprise text gradient */
+.enterprise-text-gradient {
+  background: linear-gradient(135deg, 
+    hsl(var(--primary)) 0%, 
+    hsl(var(--secondary)) 50%, 
+    hsl(var(--primary)) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Enhanced enterprise section with better depth */
+.enterprise-section {
+  position: relative;
+  overflow: hidden;
+}
+
+.enterprise-section > * {
+  position: relative;
+  z-index: 2;
+}
+
+/* Enhanced Button Styles - No animations */
+.auth-button-primary {
+  background: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--secondary)));
+  box-shadow: 
+    0 4px 16px rgba(139, 92, 246, 0.3),
+    0 0 0 1px rgba(255, 255, 255, 0.05) inset;
+  position: relative;
+  overflow: hidden;
+}
+
+.auth-button-primary:hover {
+  box-shadow: 
+    0 8px 32px rgba(139, 92, 246, 0.4),
+    0 0 0 1px rgba(255, 255, 255, 0.1) inset;
+}
+
+.auth-button-secondary {
+  background: linear-gradient(135deg, hsl(var(--secondary)), hsl(var(--primary)));
+  box-shadow: 
+    0 4px 16px rgba(236, 72, 153, 0.3),
+    0 0 0 1px rgba(255, 255, 255, 0.05) inset;
+  position: relative;
+  overflow: hidden;
+}
+
+.auth-button-secondary:hover {
+  box-shadow: 
+    0 8px 32px rgba(236, 72, 153, 0.4),
+    0 0 0 1px rgba(255, 255, 255, 0.1) inset;
+}
+
+/* Enterprise gradient background */
+.enterprise-gradient {
+  background: linear-gradient(135deg, 
+    hsl(var(--primary)) 0%, 
+    hsl(var(--secondary)) 100%);
+  box-shadow: 
+    0 10px 40px rgba(139, 92, 246, 0.3),
+    0 0 0 1px rgba(255, 255, 255, 0.1) inset;
+}
+
+/* Responsive improvements */
+@media (max-width: 768px) {
+  .enterprise-card {
+    border-radius: 1rem;
+    padding: 1.5rem;
+  }
+  
+  .enterprise-text-gradient {
+    background-size: 150% 150%;
+  }
+}
+
+/* Performance optimizations */
+.enterprise-card,
+.auth-button-primary,
+.enterprise-text-gradient,
+.animated-gradient-text-purple,
+.glass-morphism,
+.glass-button {
+  will-change: transform, box-shadow, background-position;
+  contain: layout style paint;
+}
+
+/* Reduce animations for performance */
+@media (prefers-reduced-motion: reduce) {
+  .enterprise-text-gradient,
+  .animated-gradient-text-purple {
+    animation: none;
+  }
+  
+  .enterprise-card,
+  .auth-button-primary,
+  .glass-button {
+    transition: none;
+  }
+  
+  .auth-button-primary::before,
+  .glass-effect-purple::before {
+    transition: none;
+  }
+  
+  html::before,
+  .enterprise-section::before {
+    animation: none;
+  }
+}
+
+/* Mobile optimizations for background */
+@media (max-width: 768px) {
+  html, body, #root {
+    background-size: 150% 150%, 150% 150%, 150% 150%, 100% 100%;
+  }
+  
+  .enterprise-card {
+    border-radius: 1rem;
+    padding: 1.5rem;
+  }
+  
+  .enterprise-text-gradient {
+    background-size: 150% 150%;
+  }
+}
+
+/* High contrast mode */
+@media (prefers-contrast: high) {
+  .enterprise-card {
+    border-width: 2px;
+    border-color: hsl(var(--primary));
+  }
+  
+  .enterprise-text-gradient {
+    -webkit-text-fill-color: hsl(var(--primary));
+    background: none;
+  }
+}

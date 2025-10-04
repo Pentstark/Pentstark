@@ -1,0 +1,33 @@
+<svg width="32" height="32" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="thunderGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#F472B6;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#EC4899;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#BE185D;stop-opacity:1" />
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="1.5" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Dark background -->
+  <rect width="32" height="32" rx="6" fill="#0F1117"/>
+
+  <!-- Thunder bolt (scaled and positioned) -->
+  <path d="M8 10.5 A1.5 1.5 0 0 1 6.67 9.37 L16.57 -0.83 A0.75 0.75 0 0 1 17.83 -0.37 L15.91 5.65 A1.5 1.5 0 0 0 17.33 7 H24.5 A1.5 1.5 0 0 1 25.83 8.63 L15.93 18.83 A0.75 0.75 0 0 1 14.67 18.37 L16.59 12.35 A1.5 1.5 0 0 0 15.17 11 H8 Z"
+        fill="url(#thunderGradient)"
+        stroke="#F472B6"
+        stroke-width="0.8"
+        filter="url(#glow)"
+        transform="translate(4, 6) scale(0.9) rotate(-12 16 16)"/>
+
+  <!-- Inner glow highlight -->
+  <path d="M7.5 11.5 A1 1 0 0 1 6.8 10.8 L15.2 0.2 A0.5 0.5 0 0 1 15.8 0.6 L14.4 5.4 A1 1 0 0 0 15.6 6.6 H22.2 A1 1 0 0 1 23 7.4 L14.6 17.8 A0.5 0.5 0 0 1 14 17.4 L15.4 12.6 A1 1 0 0 0 14.2 11.4 H7.5 Z"
+        fill="#F472B6"
+        opacity="0.4"
+        transform="translate(4.5, 7) scale(0.85) rotate(-12 16 16)"/>
+</svg>

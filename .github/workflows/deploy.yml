@@ -45,7 +45,6 @@ jobs:
       uses: webfactory/ssh-agent@v0.9.0
       with:
         ssh-private-key: ${{ secrets.HOSTINGER_SSH_KEY }}
-
     # 8️⃣ Deploy everything to Hostinger with reset
     - name: Deploy to Hostinger (reset & redeploy)
       env:
@@ -56,9 +55,15 @@ jobs:
         echo "📦 Creating repo zip (excluding dist)..."
         zip -r repo.zip . -x "dist/*" ".git/*" "node_modules/*"
 
-        echo "🚀 Uploading files..."
+        echo "🚀 Uploading repo zip..."
         scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -P 65002 repo.zip \
           u452452192@147.93.109.200:$BASE_PATH/
+
+        echo "🚀 Creating dist_temp on remote..."
+        ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -p 65002 \
+          u452452192@147.93.109.200 "mkdir -p $BASE_PATH/dist_temp"
+
+        echo "🚀 Uploading dist files..."
         rsync -avz --checksum --progress \
           -e "ssh -p 65002 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" \
           dist/ u452452192@147.93.109.200:$BASE_PATH/dist_temp/
@@ -76,7 +81,8 @@ jobs:
             mkdir -p $MAIN_PATH
 
             echo '📦 Moving dist files to public_html...'
-            mv $BASE_PATH/dist_temp/* $PUBLIC_PATH/
+            mv $BASE_PATH/dist_temp/* $PUBLIC_PATH/ || echo '⚠️ No dist files found to move'
+
             rm -rf $BASE_PATH/dist_temp
 
             echo '📦 Extracting repo into main...'
@@ -85,7 +91,7 @@ jobs:
             unzip -o repo.zip
             rm repo.zip
 
-            # Install Node.js if not already present
+            # Node.js install if missing
             if [ ! -d \"\$HOME/node\" ]; then
               echo '⬇️ Downloading Node.js...'
               cd ~
@@ -95,21 +101,18 @@ jobs:
               rm node.tar.gz
             fi
 
-            # Add Node to PATH for this session
             export PATH=\$HOME/node/bin:\$PATH
-
-            # Verify Node & npm
             node -v
             npm -v
 
-            # Install dependencies in main folder
+            # Install dependencies
             cd $MAIN_PATH
             npm install
 
-            # Create .env.production file
+            # Env file
             echo 'VITE_CLERK_PUBLISHABLE_KEY=pk_live_Y2xlcmsucGVudHN0YXJrLmNvbSQ' > .env.production
 
-            echo '✅ Deployment complete: dist in public_html, repo in main, Node & deps installed, env file created.'
+            echo '✅ Deployment complete!'
           "
 
     # 9️⃣ Cleanup local build folder and zip to save runner space

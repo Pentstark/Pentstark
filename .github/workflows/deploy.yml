@@ -1,4 +1,4 @@
-name: Incremental Build & Deploy to Hostinger
+name: Build & Deploy to Hostinger (Zip method)
 
 on:
   push:
@@ -20,7 +20,7 @@ jobs:
       with:
         node-version: '18'
 
-    # 3️⃣ Clean npm cache to save runner space
+    # 3️⃣ Clean npm cache
     - name: Clean npm cache
       run: npm cache clean --force
 
@@ -46,29 +46,30 @@ jobs:
       with:
         ssh-private-key: ${{ secrets.HOSTINGER_SSH_KEY }}
 
-    # 8️⃣ Incremental deployment of dist folder
-    - name: Deploy dist folder incrementally
+    # 8️⃣ Deploy dist folder incrementally
+    - name: Deploy dist folder
       env:
         DEPLOY_PATH: /home/u452452192/domains/safeproduction.pentstark.com/public_html
       run: |
-        echo "🚀 Deploying only changed files..."
+        echo "🚀 Deploying dist folder incrementally..."
         rsync -avz --checksum --progress --exclude='.git' -e "ssh -p 65002 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" dist/ u452452192@147.93.109.200:$DEPLOY_PATH/
 
-    # 9️⃣ Optional: deploy other repo files (excluding dist)
-    - name: Deploy remaining repo files incrementally
-      env:
-        DEPLOY_PATH: /home/u452452192/domains/safeproduction.pentstark.com/public_html/main
+    # 9️⃣ Zip repo files (excluding dist) and deploy
+    - name: Zip and deploy repo files
       run: |
-        mkdir temp_deploy
-        rsync -av --exclude='dist' ./ temp_deploy/
-        ssh -p 65002 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null u452452192@147.93.109.200 "mkdir -p $DEPLOY_PATH"
-        rsync -avz -e "ssh -p 65002 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" temp_deploy/ u452452192@147.93.109.200:$DEPLOY_PATH/
-        rm -rf temp_deploy
+        echo "📦 Creating repo zip..."
+        zip -r repo.zip . -x "dist/*" ".git/*"
 
-    # 🔟 Cleanup local build folder to save runner space
+        echo "🚀 Uploading and extracting zip..."
+        scp -P 65002 repo.zip u452452192@147.93.109.200:/home/u452452192/domains/safeproduction.pentstark.com/public_html/main/
+        ssh -p 65002 u452452192@147.93.109.200 "cd /home/u452452192/domains/safeproduction.pentstark.com/public_html/main && unzip -o repo.zip && rm repo.zip"
+
+        echo "✅ Repo files deployed successfully."
+
+    # 🔟 Cleanup local build folder
     - name: Cleanup local build folder
-      run: rm -rf dist
+      run: rm -rf dist repo.zip
 
     # 1️⃣1️⃣ Final deployment message
     - name: Deployment complete
-      run: echo "✅ Incremental deployment finished successfully!"
+      run: echo "✅ Deployment finished successfully!"

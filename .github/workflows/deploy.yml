@@ -14,7 +14,7 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v4
 
-    # 2️⃣ Setup Node on runner (for build only)
+    # 2️⃣ Setup Node.js on runner (for build only)
     - name: Setup Node.js (for build)
       uses: actions/setup-node@v4
       with:
@@ -46,41 +46,49 @@ jobs:
       with:
         ssh-private-key: ${{ secrets.HOSTINGER_SSH_KEY }}
 
-    # 8️⃣ Deploy dist folder incrementally to remote
-    - name: Deploy dist folder incrementally
+    # 8️⃣ Deploy everything to Hostinger with reset
+    - name: Deploy to Hostinger (reset & redeploy)
       env:
-        DEPLOY_PATH: /home/u452452192/domains/safeproduction.pentstark.com/public_html
-      run: |
-        echo "🚀 Deploying dist folder incrementally..."
-        rsync -avz --checksum --progress \
-          -e "ssh -p 65002 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" \
-          dist/ u452452192@147.93.109.200:$DEPLOY_PATH/
-
-    # 9️⃣ Zip repo files, deploy, install Node & npm dependencies on Hostinger
-    - name: Zip, deploy, and setup Node on Hostinger
-      env:
-        DEPLOY_PATH: /home/u452452192/domains/safeproduction.pentstark.com/public_html/main
+        BASE_PATH: /home/u452452192/domains/safeproduction.pentstark.com
+        PUBLIC_PATH: /home/u452452192/domains/safeproduction.pentstark.com/public_html
+        MAIN_PATH: /home/u452452192/domains/safeproduction.pentstark.com/main
       run: |
         echo "📦 Creating repo zip (excluding dist)..."
         zip -r repo.zip . -x "dist/*" ".git/*" "node_modules/*"
 
-        echo "🚀 Ensuring remote folder exists..."
-        ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -p 65002 \
-          u452452192@147.93.109.200 "mkdir -p $DEPLOY_PATH"
-
-        echo "🚀 Uploading and extracting zip, installing Node and npm dependencies..."
+        echo "🚀 Uploading files..."
         scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -P 65002 repo.zip \
-          u452452192@147.93.109.200:$DEPLOY_PATH/
+          u452452192@147.93.109.200:$BASE_PATH/
+        rsync -avz --checksum --progress \
+          -e "ssh -p 65002 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" \
+          dist/ u452452192@147.93.109.200:$BASE_PATH/dist_temp/
 
+        echo "🚀 Setting up remote structure..."
         ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -p 65002 \
           u452452192@147.93.109.200 "
-            cd $DEPLOY_PATH
+            set -e
+
+            echo '🧹 Cleaning base path...'
+            rm -rf $BASE_PATH/*
+
+            echo '📂 Creating fresh structure...'
+            mkdir -p $PUBLIC_PATH
+            mkdir -p $MAIN_PATH
+
+            echo '📦 Moving dist files to public_html...'
+            mv $BASE_PATH/dist_temp/* $PUBLIC_PATH/
+            rm -rf $BASE_PATH/dist_temp
+
+            echo '📦 Extracting repo into main...'
+            cd $MAIN_PATH
+            mv $BASE_PATH/repo.zip .
             unzip -o repo.zip
             rm repo.zip
 
             # Install Node.js if not already present
             if [ ! -d \"\$HOME/node\" ]; then
               echo '⬇️ Downloading Node.js...'
+              cd ~
               wget https://nodejs.org/dist/v18.20.1/node-v18.20.1-linux-x64.tar.gz -O node.tar.gz
               tar -xzf node.tar.gz
               mv node-v18.20.1-linux-x64 node
@@ -94,19 +102,20 @@ jobs:
             node -v
             npm -v
 
-            # Install dependencies in deployed folder
+            # Install dependencies in main folder
+            cd $MAIN_PATH
             npm install
 
             # Create .env.production file
             echo 'VITE_CLERK_PUBLISHABLE_KEY=pk_live_Y2xlcmsucGVudHN0YXJrLmNvbSQ' > .env.production
 
-            echo '✅ Node installed, dependencies installed, and .env.production created.'
+            echo '✅ Deployment complete: dist in public_html, repo in main, Node & deps installed, env file created.'
           "
 
-    # 🔟 Cleanup local build folder and zip to save runner space
+    # 9️⃣ Cleanup local build folder and zip to save runner space
     - name: Cleanup local files
       run: rm -rf dist repo.zip
 
-    # 1️⃣1️⃣ Final deployment message
+    # 🔟 Final deployment message
     - name: Deployment complete
       run: echo "✅ Deployment finished successfully!"

@@ -871,7 +871,7 @@ const HomePage = () => {
             {/* Left: Hero content */}
             <div className="w-1/2">
               <h1 className="font-orbitron font-bold leading-tight mb-6 text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl 2xl:text-7xl tracking-tight">
-                <span className="block text-white">Continuous</span>
+                <span className="block text-white">Iterative</span>
                 <span className="block bg-gradient-to-r from-fuchsia-500 via-pink-500 to-rose-500 bg-clip-text text-transparent">
                   Pentest & Red
                 </span>

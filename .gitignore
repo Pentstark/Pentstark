@@ -13,12 +13,12 @@ node_modules
 *.local
 
 # Environment files (IMPORTANT: Keep these secret)
-#.env
-#.env.local
-#.env.development.local
-#.env.test.local
-#.env.production.local
-#.env.production
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+.env.production
 
 # Editor directories and files
 .vscode/*

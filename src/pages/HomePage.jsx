@@ -804,7 +804,7 @@ const HomePage = () => {
               transition={{ duration: 0.6 }}
               className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold font-orbitron leading-tight mb-6"
             >
-              <span className="block text-white">Continuous</span>
+              <span className="block text-white">Iterative</span>
               <span className="block bg-gradient-to-r from-fuchsia-500 via-pink-500 to-rose-500 bg-clip-text text-transparent">
                 Pentest & Red
               </span>

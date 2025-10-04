@@ -64,10 +64,15 @@ jobs:
         echo "📦 Creating repo zip (excluding dist)..."
         zip -r repo.zip . -x "dist/*" ".git/*" "node_modules/*"
 
+        echo "🚀 Ensuring remote folder exists..."
+        ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -p 65002 \
+          u452452192@147.93.109.200 "mkdir -p $DEPLOY_PATH"
+
         echo "🚀 Uploading and extracting zip..."
-        scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -P 65002 repo.zip u452452192@147.93.109.200:$DEPLOY_PATH/
-        ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -p 65002 u452452192@147.93.109.200 \
-          "cd $DEPLOY_PATH && unzip -o repo.zip && rm repo.zip"
+        scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -P 65002 repo.zip \
+          u452452192@147.93.109.200:$DEPLOY_PATH/
+        ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -p 65002 \
+          u452452192@147.93.109.200 "cd $DEPLOY_PATH && unzip -o repo.zip && rm repo.zip"
 
         echo "✅ Repo files deployed successfully."
 

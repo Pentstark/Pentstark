@@ -41,14 +41,14 @@ jobs:
     - name: Setup SSH
       uses: webfactory/ssh-agent@v0.9.0
       with:
-        ssh-private-key: ${{ secrets.HOSTINGER_PRIVATE_SSH_KEY }}
+        ssh-private-key: ${{ secrets.HOSTINGER_SSH_KEY }}
 
     # 7️⃣ Prepare Hostinger deployment (clear & create folders)
     - name: Prepare Hostinger deployment
       env:
         DEPLOY_PATH: /home/u452452192/domains/safeproduction.pentstark.com
       run: |
-        ssh -p 65002 u452452192@147.93.109.200 "set -e && \
+        ssh -p 65002 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null u452452192@147.93.109.200 "set -e && \
           echo '🚀 Starting deployment...' && \
           rm -rf $DEPLOY_PATH/* && \
           mkdir -p $DEPLOY_PATH/public_html"
@@ -58,7 +58,7 @@ jobs:
       env:
         DEPLOY_PATH: /home/u452452192/domains/safeproduction.pentstark.com
       run: |
-        rsync -avz --delete -e "ssh -p 65002" .dist/ u452452192@147.93.109.200:$DEPLOY_PATH/public_html/
+        rsync -avz --delete -e "ssh -p 65002 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" .dist/ u452452192@147.93.109.200:$DEPLOY_PATH/public_html/
 
     # 9️⃣ Deploy remaining code to public_html/main
     - name: Deploy remaining code to public_html/main
@@ -68,9 +68,9 @@ jobs:
         mkdir temp_deploy
         rsync -av --exclude='.dist' ./ temp_deploy/
 
-        ssh -p 65002 u452452192@147.93.109.200 "mkdir -p $DEPLOY_PATH/public_html/main"
+        ssh -p 65002 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null u452452192@147.93.109.200 "mkdir -p $DEPLOY_PATH/public_html/main"
 
-        rsync -avz -e "ssh -p 65002" temp_deploy/ u452452192@147.93.109.200:$DEPLOY_PATH/public_html/main/
+        rsync -avz -e "ssh -p 65002 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" temp_deploy/ u452452192@147.93.109.200:$DEPLOY_PATH/public_html/main/
 
     # 🔟 Cleanup temporary folder
     - name: Cleanup

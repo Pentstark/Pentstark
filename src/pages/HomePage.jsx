@@ -725,7 +725,7 @@ const ServicesShowcase = () => {
                   <ul className="space-y-2">
                     <Bullet>Code Review</Bullet>
                     <Bullet>Vulnerability Management</Bullet>
-                    <Bullet>Continuous Penetration Testing</Bullet>
+                    <Bullet>Iterative Penetration Testing</Bullet>
                   </ul>
                   <ul className="space-y-2">
                     <Bullet>DevSecOps</Bullet>

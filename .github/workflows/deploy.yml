@@ -14,7 +14,7 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v4
 
-    # 2️⃣ Setup Node on runner (optional, for build)
+    # 2️⃣ Setup Node on runner (for build only)
     - name: Setup Node.js (for build)
       uses: actions/setup-node@v4
       with:
@@ -69,6 +69,9 @@ jobs:
           u452452192@147.93.109.200 "mkdir -p $DEPLOY_PATH"
 
         echo "🚀 Uploading and extracting zip, installing Node and npm dependencies..."
+        scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -P 65002 repo.zip \
+          u452452192@147.93.109.200:$DEPLOY_PATH/
+
         ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -p 65002 \
           u452452192@147.93.109.200 "
             cd $DEPLOY_PATH
@@ -94,7 +97,10 @@ jobs:
             # Install dependencies in deployed folder
             npm install
 
-            echo '✅ Node installed and dependencies installed successfully.'
+            # Create .env.production file
+            echo 'VITE_CLERK_PUBLISHABLE_KEY=pk_live_Y2xlcmsucGVudHN0YXJrLmNvbSQ' > .env.production
+
+            echo '✅ Node installed, dependencies installed, and .env.production created.'
           "
 
     # 🔟 Cleanup local build folder and zip to save runner space

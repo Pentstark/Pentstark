@@ -2,8 +2,8 @@ name: Build & Deploy to Hostinger
 
 on:
   push:
-    branches: [ main ]   # triggers on push to main
-  workflow_dispatch:     # allows manual trigger
+    branches: [ main ]
+  workflow_dispatch:
 
 jobs:
   build_and_deploy:
@@ -35,7 +35,7 @@ jobs:
 
     # 5️⃣ Build project
     - name: Build project
-      run: npm run build   # assuming this outputs .dist folder
+      run: npm run build
 
     # 6️⃣ Setup SSH agent
     - name: Setup SSH
@@ -46,11 +46,9 @@ jobs:
     # 7️⃣ Prepare Hostinger deployment (clear & create folders)
     - name: Prepare Hostinger deployment
       env:
-        HOST: ${{ secrets.HOSTINGER_IP }}
-        USER: ${{ secrets.HOSTINGER_USER }}
         DEPLOY_PATH: /home/u452452192/domains/safeproduction.pentstark.com
       run: |
-        ssh -o StrictHostKeyChecking=no $USER@$HOST "set -e && \
+        ssh -p 65002 u452452192@147.93.109.200 "set -e && \
           echo '🚀 Starting deployment...' && \
           rm -rf $DEPLOY_PATH/* && \
           mkdir -p $DEPLOY_PATH/public_html"
@@ -58,28 +56,21 @@ jobs:
     # 8️⃣ Upload the .dist folder
     - name: Upload .dist folder
       env:
-        HOST: ${{ secrets.HOSTINGER_IP }}
-        USER: ${{ secrets.HOSTINGER_USER }}
         DEPLOY_PATH: /home/u452452192/domains/safeproduction.pentstark.com
       run: |
-        rsync -avz --delete -e "ssh -o StrictHostKeyChecking=no" .dist/ $USER@$HOST:$DEPLOY_PATH/public_html/
+        rsync -avz --delete -e "ssh -p 65002" .dist/ u452452192@147.93.109.200:$DEPLOY_PATH/public_html/
 
     # 9️⃣ Deploy remaining code to public_html/main
     - name: Deploy remaining code to public_html/main
       env:
-        HOST: ${{ secrets.HOSTINGER_IP }}
-        USER: ${{ secrets.HOSTINGER_USER }}
         DEPLOY_PATH: /home/u452452192/domains/safeproduction.pentstark.com
       run: |
-        # Prepare temporary folder excluding .dist
         mkdir temp_deploy
         rsync -av --exclude='.dist' ./ temp_deploy/
-        
-        # Create main folder on server
-        ssh -o StrictHostKeyChecking=no $USER@$HOST "mkdir -p $DEPLOY_PATH/public_html/main"
 
-        # Upload remaining files
-        rsync -avz -e "ssh -o StrictHostKeyChecking=no" temp_deploy/ $USER@$HOST:$DEPLOY_PATH/public_html/main/
+        ssh -p 65002 u452452192@147.93.109.200 "mkdir -p $DEPLOY_PATH/public_html/main"
+
+        rsync -avz -e "ssh -p 65002" temp_deploy/ u452452192@147.93.109.200:$DEPLOY_PATH/public_html/main/
 
     # 🔟 Cleanup temporary folder
     - name: Cleanup

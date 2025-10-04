@@ -1,4 +1,4 @@
-name: Build & Deploy to Hostinger (Zip method)
+name: Build & Deploy to Hostinger
 
 on:
   push:
@@ -40,34 +40,39 @@ jobs:
           exit 1
         fi
 
-    # 7️⃣ Setup SSH
+    # 7️⃣ Setup SSH agent
     - name: Setup SSH
       uses: webfactory/ssh-agent@v0.9.0
       with:
         ssh-private-key: ${{ secrets.HOSTINGER_SSH_KEY }}
 
     # 8️⃣ Deploy dist folder incrementally
-    - name: Deploy dist folder
+    - name: Deploy dist folder incrementally
       env:
         DEPLOY_PATH: /home/u452452192/domains/safeproduction.pentstark.com/public_html
       run: |
         echo "🚀 Deploying dist folder incrementally..."
-        rsync -avz --checksum --progress --exclude='.git' -e "ssh -p 65002 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" dist/ u452452192@147.93.109.200:$DEPLOY_PATH/
+        rsync -avz --checksum --progress \
+          -e "ssh -p 65002 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" \
+          dist/ u452452192@147.93.109.200:$DEPLOY_PATH/
 
-    # 9️⃣ Zip repo files (excluding dist) and deploy
+    # 9️⃣ Zip other repo files (excluding dist) and deploy
     - name: Zip and deploy repo files
+      env:
+        DEPLOY_PATH: /home/u452452192/domains/safeproduction.pentstark.com/public_html/main
       run: |
-        echo "📦 Creating repo zip..."
-        zip -r repo.zip . -x "dist/*" ".git/*"
+        echo "📦 Creating repo zip (excluding dist)..."
+        zip -r repo.zip . -x "dist/*" ".git/*" "node_modules/*"
 
         echo "🚀 Uploading and extracting zip..."
-        scp -P 65002 repo.zip u452452192@147.93.109.200:/home/u452452192/domains/safeproduction.pentstark.com/public_html/main/
-        ssh -p 65002 u452452192@147.93.109.200 "cd /home/u452452192/domains/safeproduction.pentstark.com/public_html/main && unzip -o repo.zip && rm repo.zip"
+        scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -P 65002 repo.zip u452452192@147.93.109.200:$DEPLOY_PATH/
+        ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -p 65002 u452452192@147.93.109.200 \
+          "cd $DEPLOY_PATH && unzip -o repo.zip && rm repo.zip"
 
         echo "✅ Repo files deployed successfully."
 
-    # 🔟 Cleanup local build folder
-    - name: Cleanup local build folder
+    # 🔟 Cleanup local build folder and zip to save runner space
+    - name: Cleanup local files
       run: rm -rf dist repo.zip
 
     # 1️⃣1️⃣ Final deployment message

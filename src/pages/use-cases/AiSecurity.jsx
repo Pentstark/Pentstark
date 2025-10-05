@@ -30,7 +30,7 @@ export default function AISecurity() {
         className="max-w-4xl mx-auto text-center mb-16"
       >
         <h1 className="text-4xl md:text-6xl font-bold mb-4">
-          AI Security
+          Artificial Intelligence Security
         </h1>
         <p className="text-gray-300 text-base md:text-lg leading-relaxed max-w-2xl mx-auto">
           Harnessing artificial intelligence to safeguard digital ecosystems, detect threats instantly, and ensure intelligent, adaptive cybersecurity.

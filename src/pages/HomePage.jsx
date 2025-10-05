@@ -925,7 +925,7 @@ const HomePage = () => {
           <div className="max-w-6xl mx-auto px-4 sm:px-6 md:px-8 lg:px-12">
             <div className="text-center mb-6">
               <span className="block text-xs font-bold text-white/70 tracking-widest mb-1">
-                OUR CLIENTS
+                OUR CLIENTS:
               </span>
               <h2 className="text-lg sm:text-xl font-semibold text-white mb-2 font-orbitron">
                 We work with the top industry leaders in the world

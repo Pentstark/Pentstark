@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import {
   Shield,
   Cpu,
@@ -7,7 +7,6 @@ import {
   Network,
   Eye,
   Radar,
-  ChevronDown,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
@@ -45,10 +44,7 @@ export default function AiSecurity() {
           transition={{ delay: 0.4 }}
           className="text-gray-300 text-lg md:text-xl max-w-3xl mx-auto leading-relaxed relative"
         >
-          AI Security integrates artificial intelligence and machine learning
-          into cybersecurity to detect, analyze, and respond to threats faster
-          than conventional methods. It transforms the cybersecurity landscape
-          through intelligent, adaptive, and proactive defense mechanisms.
+          Harnessing artificial intelligence to safeguard digital ecosystems, detect threats instantly, and ensure intelligent, adaptive cybersecurity.
         </motion.p>
 
         <motion.div
@@ -225,79 +221,75 @@ export default function AiSecurity() {
       </section>
 
       {/* FAQ SECTION */}
-<section id="faq" className="py-20 bg-transparent">
-  <motion.div
-    className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8"
-    initial={{ opacity: 0, y: 40 }}
-    whileInView={{ opacity: 1, y: 0 }}
-    transition={{ duration: 0.8 }}
-  >
-    <h2 className="text-4xl md:text-5xl font-bold mb-10 text-center bg-gradient-to-r from-purple-500 to-violet-600 bg-clip-text text-transparent">
-      Frequently Asked Questions
-    </h2>
+      <section id="faq" className="py-20 bg-transparent">
+        <motion.div
+          className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8"
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+        >
+          <h2 className="text-4xl md:text-5xl font-bold mb-10 text-center bg-gradient-to-r from-purple-500 to-violet-600 bg-clip-text text-transparent">
+            Frequently Asked Questions
+          </h2>
 
-    <div className="space-y-6">
-      {[
-        {
-          q: "What is AI Security?",
-          a: "AI Security integrates artificial intelligence and machine learning into cybersecurity to automatically detect, analyze, and respond to digital threats in real time.",
-        },
-        {
-          q: "How does AI improve cybersecurity?",
-          a: "AI continuously learns from network data, identifies suspicious patterns, predicts potential attacks, and helps automate defense mechanisms against evolving threats.",
-        },
-        {
-          q: "Can AI prevent zero-day attacks?",
-          a: "Yes. Using predictive analytics and anomaly detection, AI can detect unfamiliar behaviors, preventing zero-day attacks before they cause harm.",
-        },
-        {
-          q: "Is AI Security suitable for all industries?",
-          a: "Absolutely. AI Security is adaptable across industries such as finance, healthcare, defense, and government to strengthen cybersecurity posture and compliance.",
-        },
-        {
-          q: "Does AI replace human cybersecurity teams?",
-          a: "No. AI enhances human capabilities by automating repetitive tasks, allowing experts to focus on critical threat analysis and strategic response planning.",
-        },
-      ].map((item, index) => {
-        const [open, setOpen] = React.useState(false);
+          <div className="space-y-6">
+            {[
+              {
+                q: "What is AI Security?",
+                a: "AI Security integrates artificial intelligence and machine learning into cybersecurity to automatically detect, analyze, and respond to digital threats in real time.",
+              },
+              {
+                q: "How does AI improve cybersecurity?",
+                a: "AI continuously learns from network data, identifies suspicious patterns, predicts potential attacks, and helps automate defense mechanisms against evolving threats.",
+              },
+              {
+                q: "Can AI prevent zero-day attacks?",
+                a: "Yes. Using predictive analytics and anomaly detection, AI can detect unfamiliar behaviors, preventing zero-day attacks before they cause harm.",
+              },
+              {
+                q: "Is AI Security suitable for all industries?",
+                a: "Absolutely. AI Security is adaptable across industries such as finance, healthcare, defense, and government to strengthen cybersecurity posture and compliance.",
+              },
+              {
+                q: "Does AI replace human cybersecurity teams?",
+                a: "No. AI enhances human capabilities by automating repetitive tasks, allowing experts to focus on critical threat analysis and strategic response planning.",
+              },
+            ].map((item, index) => (
+              <motion.div
+                key={index}
+                whileHover={{
+                  boxShadow: "0px 0px 25px rgba(168, 85, 247, 0.4)",
+                }}
+                className="bg-white/5 p-6 rounded-2xl shadow-lg transition-all duration-300 cursor-pointer border border-transparent hover:border-purple-500"
+                onClick={() => toggleFAQ(index)}
+              >
+                <div className="font-semibold text-lg cursor-pointer flex justify-between items-center text-purple-400">
+                  <span>{item.q}</span>
+                  <span className="ml-2 text-purple-400 text-xl">
+                    {openIndex === index ? "×" : "+"}
+                  </span>
+                </div>
 
-        return (
-          <motion.div
-            key={index}
-            whileHover={{
-              boxShadow: "0px 0px 25px rgba(168, 85, 247, 0.4)",
-            }}
-            className="bg-white/5 p-6 rounded-2xl shadow-lg transition-all duration-300 cursor-pointer border border-transparent hover:border-purple-500"
-            onClick={() => setOpen(!open)}
-          >
-            {/* Question */}
-            <div className="font-semibold text-lg cursor-pointer flex justify-between items-center text-purple-400">
-              <span>{item.q}</span>
-              <span className="ml-2 text-purple-400 text-xl">
-                {open ? "×" : "+"}
-              </span>
-            </div>
-
-            {/* Answer */}
-            <motion.div
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: open ? 1 : 0, height: open ? "auto" : 0 }}
-              transition={{ duration: 0.3 }}
-              className="overflow-hidden mt-4"
-            >
-              {open && (
-                <p className="text-gray-300 text-sm leading-relaxed">
-                  {item.a}
-                </p>
-              )}
-            </motion.div>
-          </motion.div>
-        );
-      })}
-    </div>
-  </motion.div>
-</section>
-
+                <motion.div
+                  initial={{ opacity: 0, height: 0 }}
+                  animate={{
+                    opacity: openIndex === index ? 1 : 0,
+                    height: openIndex === index ? "auto" : 0,
+                  }}
+                  transition={{ duration: 0.3 }}
+                  className="overflow-hidden mt-4"
+                >
+                  {openIndex === index && (
+                    <p className="text-gray-300 text-sm leading-relaxed">
+                      {item.a}
+                    </p>
+                  )}
+                </motion.div>
+              </motion.div>
+            ))}
+          </div>
+        </motion.div>
+      </section>
 
       {/* Call to Action */}
       <section className="text-center py-24 mt-10">
@@ -310,17 +302,16 @@ export default function AiSecurity() {
           tomorrow’s threats.
         </p>
         <Button asChild className="group">
-  <a
-    href="#get-started"
-    className="px-8 py-3 bg-gradient-to-r from-purple-500 to-violet-600 rounded-full flex items-center space-x-3 font-semibold transition-all duration-300 transform hover:scale-105 hover:shadow-[0_0_25px_#9B59B6]"
-  >
-    <span>Get Started with AI Security</span>
-    <span className="group-hover:translate-x-2 transition-transform text-lg">
-      →
-    </span>
-  </a>
-</Button>
-
+          <a
+            href="#get-started"
+            className="px-8 py-3 bg-gradient-to-r from-purple-500 to-violet-600 rounded-full flex items-center space-x-3 font-semibold transition-all duration-300 transform hover:scale-105 hover:shadow-[0_0_25px_#9B59B6]"
+          >
+            <span>Get Started with AI Security</span>
+            <span className="group-hover:translate-x-2 transition-transform text-lg">
+              →
+            </span>
+          </a>
+        </Button>
       </section>
     </motion.div>
   );

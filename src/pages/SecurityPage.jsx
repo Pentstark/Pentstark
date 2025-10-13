@@ -515,7 +515,7 @@ const SecurityPage = () => {
                     <div className="space-y-2 text-sm">
                       <p className="text-foreground"><strong>Address:</strong> <span className="text-muted-foreground">Pentstark LLP<br />Security Operations Center<br />Citadel A 1 Manipal County Club Road,<br />Bangalore South, India</span></p>
                       <p className="text-foreground"><strong>Phone:</strong> <span className="text-primary">+91 94806 20540</span></p>
-                      <p className="text-foreground"><strong>Emergency Hotline:</strong> <span className="text-primary">+91 94806 20540</span></p>
+                      {/* <p className="text-foreground"><strong>Emergency Hotline:</strong> <span className="text-primary">+91 94806 20540</span></p> */}
                     </div>
                   </div>
                   <div className="p-4 bg-yellow-400/10 rounded-lg border border-yellow-400/20 max-w-2xl mx-auto">

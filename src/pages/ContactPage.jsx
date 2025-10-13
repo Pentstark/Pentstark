@@ -324,7 +324,7 @@ const ContactPage = () => {
                       </div>
                       <div>
                         <div className="text-foreground font-medium">Phone Support</div>
-                        <div className="text-muted-foreground">+91 8550868583</div>
+                        <div className="text-muted-foreground">+91 9480620540</div>
                       </div>
                     </div>
                   </div>

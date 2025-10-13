@@ -49,7 +49,7 @@ jobs:
     # 8️⃣ Deploy dist folder incrementally to remote
     - name: Deploy dist folder incrementally
       env:
-        DEPLOY_PATH: /home/u452452192/domains/safeproduction.pentstark.com/public_html
+        DEPLOY_PATH: /home/u452452192/domains/pentstark.com/public_html
       run: |
         echo "🚀 Deploying dist folder incrementally..."
         rsync -avz --checksum --progress \
@@ -59,7 +59,7 @@ jobs:
     # 9️⃣ Zip repo files, deploy, install Node & npm dependencies on Hostinger
     - name: Zip, deploy, and setup Node on Hostinger
       env:
-        DEPLOY_PATH: /home/u452452192/domains/safeproduction.pentstark.com/public_html/main
+        DEPLOY_PATH: /home/u452452192/domains/pentstark.com/public_html/main
       run: |
         echo "📦 Creating repo zip (excluding dist)..."
         zip -r repo.zip . -x "dist/*" ".git/*" "node_modules/*"

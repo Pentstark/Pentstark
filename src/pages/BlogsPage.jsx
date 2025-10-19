@@ -632,15 +632,43 @@ export function BlogPostPage() {
     const el = document.getElementById(id);
     if (!el) return false;
     const offset = computeOffset();
-    const top = el.getBoundingClientRect().top + window.pageYOffset - offset;
-    window.scrollTo({ top, behavior: "smooth" });
+    const startY = window.pageYOffset;
+    const targetY = Math.max(0, el.getBoundingClientRect().top + window.pageYOffset - offset);
+
+    const tryScroll = (y, behavior = "smooth") => {
+      try { window.scrollTo({ top: y, behavior }); } catch { window.scrollTo(0, y); }
+    };
+
+    // Initial attempt
+    tryScroll(targetY, "smooth");
+
     // Retry after paint in case layout shifts
     requestAnimationFrame(() => {
-      window.scrollTo({ top, behavior: "smooth" });
+      tryScroll(targetY, "smooth");
     });
+    // Secondary retry shortly after
     setTimeout(() => {
-      window.scrollTo({ top, behavior: "smooth" });
-    }, 120);
+      // If we didn't move much, force scrollIntoView then adjust by offset
+      const moved = Math.abs(window.pageYOffset - startY) > 2;
+      if (!moved) {
+        try { el.scrollIntoView({ behavior: "smooth", block: "start" }); } catch { el.scrollIntoView(true); }
+        // Adjust for fixed header
+        setTimeout(() => {
+          tryScroll(Math.max(0, window.pageYOffset - offset), "auto");
+        }, 60);
+      } else {
+        tryScroll(targetY, "smooth");
+      }
+    }, 140);
+
+    // Final assurance
+    setTimeout(() => {
+      const near = Math.abs((el.getBoundingClientRect().top + window.pageYOffset - offset) - window.pageYOffset) < 4;
+      if (!near) {
+        tryScroll(targetY, "auto");
+      }
+    }, 360);
+
     // Immediately update active TOC highlight so feedback is instant
     try { setActiveId(id); } catch {}
     return true;
@@ -791,7 +819,7 @@ export function BlogPostPage() {
     if (!activeId) return;
     const el = tocDesktopRef.current?.querySelector(`a[data-id="${activeId}"]`);
     if (el && typeof el.scrollIntoView === "function") {
-      el.scrollIntoView({ block: "nearest" });
+      el.scrollIntoView({ block: "nearest", behavior: "smooth" });
     }
   }, [activeId]);
 
@@ -934,17 +962,23 @@ export function BlogPostPage() {
                             style={{ paddingLeft: pad + 8 }}
                             onClick={(e) => {
                               e.preventDefault();
-                              const ok = scrollToId(item.id);
-                              // Ensure immediate highlight on click
                               setActiveId(item.id);
-                              // Update hash in history (so back button works)
+                              const before = window.pageYOffset;
+                              const ok = scrollToId(item.id);
+                              // Update hash for history/back button
                               if (history.pushState) {
                                 history.pushState(null, "", `#${item.id}`);
                               } else if (!ok) {
-                                // Fallback to default hash navigation
                                 window.location.hash = `#${item.id}`;
                               }
                               setTocOpen(false);
+                              // If scroll didn't occur shortly after, force a reload so hash navigation works
+                              setTimeout(() => {
+                                const moved = Math.abs(window.pageYOffset - before) > 2;
+                                if (!moved) {
+                                  try { window.location.reload(); } catch {}
+                                }
+                              }, 500);
                             }}
                           >
                             {item.text}
@@ -1111,7 +1145,7 @@ export function BlogPostPage() {
           {/* TOC sidebar */}
           <aside className="hidden lg:block">
             {toc.length > 0 && (
-              <div className="sticky top-24 w-full border border-white/10 rounded-xl p-4 bg-white/5 backdrop-blur-sm max-h-[calc(100vh-8rem)] overflow-auto" ref={tocDesktopRef}>
+              <div className="w-full border border-white/10 rounded-xl p-4 bg-white/5 backdrop-blur-sm" ref={tocDesktopRef}>
                 <div className="text-xs font-semibold text-white/80 mb-2">Table of contents</div>
                 <nav className="space-y-0.5">
                   {toc.map((item) => {
@@ -1126,15 +1160,21 @@ export function BlogPostPage() {
                         style={{ paddingLeft: pad + 8 }}
                         onClick={(e) => {
                           e.preventDefault();
-                          const ok = scrollToId(item.id);
-                          // Ensure immediate highlight on click
                           setActiveId(item.id);
+                          const before = window.pageYOffset;
+                          const ok = scrollToId(item.id);
                           if (history.pushState) {
                             history.pushState(null, "", `#${item.id}`);
                           } else if (!ok) {
-                            // Fallback to default hash navigation
                             window.location.hash = `#${item.id}`;
                           }
+                          // Reload if no scroll happened to ensure anchor is visible
+                          setTimeout(() => {
+                            const moved = Math.abs(window.pageYOffset - before) > 2;
+                            if (!moved) {
+                              try { window.location.reload(); } catch {}
+                            }
+                          }, 500);
                         }}
                       >
                         {item.text}

@@ -1,5 +1,6 @@
 import React from "react";
 import { motion } from "framer-motion";
+import Layout from "@/components/Layout";
 import {
   Server,
   ShieldCheck,
@@ -12,22 +13,22 @@ import { Button } from "@/components/ui/button";
 
 export default function SaaSSecurity() {
   return (
-    <motion.div
-      className="layout-container flex flex-col min-h-screen bg-gradient-to-br from-[#0F1117] via-[#1a1625] to-[#0F1117] text-white overflow-hidden"
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 0.8 }}
-    >
+      <motion.div
+        className="text-white overflow-hidden"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.8 }}
+      >
       {/* Hero Section — Center Focus */}
       <section className="relative text-center py-24 px-6">
-        <div className="absolute w-80 h-80 bg-teal-500/20 blur-3xl rounded-full -top-20 left-1/3"></div>
-        <div className="absolute w-72 h-72 bg-cyan-400/20 blur-3xl rounded-full bottom-0 right-1/4"></div>
+        <div className="absolute w-80 h-80 bg-purple-500/20 blur-3xl rounded-full -top-20 left-1/3"></div>
+        <div className="absolute w-72 h-72 bg-violet-500/20 blur-3xl rounded-full bottom-0 right-1/4"></div>
 
         <motion.h1
           initial={{ y: -30, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ duration: 1 }}
-          className="text-5xl md:text-6xl font-extrabold bg-gradient-to-r from-teal-400 to-cyan-400 bg-clip-text text-transparent"
+          className="text-5xl md:text-6xl font-extrabold bg-gradient-to-r from-purple-500 to-violet-600 bg-clip-text text-transparent"
         >
           SaaS Security & Compliance
         </motion.h1>
@@ -48,7 +49,7 @@ export default function SaaSSecurity() {
           transition={{ delay: 0.8 }}
           className="mt-10"
         >
-          <Button className="bg-gradient-to-r from-teal-500 to-cyan-400 px-8 py-4 text-lg rounded-full hover:shadow-lg transition-all">
+          <Button variant="enterprise" className="px-8 py-4 text-lg rounded-xl">
             Explore SaaS Security
           </Button>
         </motion.div>
@@ -56,7 +57,7 @@ export default function SaaSSecurity() {
 
       {/* Unique Vertical Carousel Features */}
       <section className="max-w-7xl mx-auto px-6 py-16">
-        <h2 className="text-4xl font-bold text-center mb-12 bg-gradient-to-r from-teal-400 to-cyan-400 bg-clip-text text-transparent">
+        <h2 className="text-4xl font-bold text-center mb-12 bg-gradient-to-r from-purple-500 to-violet-600 bg-clip-text text-transparent">
           Core Features
         </h2>
 
@@ -98,7 +99,7 @@ export default function SaaSSecurity() {
               whileHover={{ scale: 1.05, y: -5 }}
               className="snap-center bg-white/5 border border-white/10 p-8 rounded-3xl shadow-lg backdrop-blur-lg min-w-[280px] cursor-pointer transition-all duration-300"
             >
-              <feature.icon className="w-10 h-10 text-teal-400 mb-4 animate-pulse" />
+              <feature.icon className="w-10 h-10 text-purple-400 mb-4 animate-pulse" />
               <h3 className="text-xl font-semibold">{feature.title}</h3>
               <p className="text-gray-400 text-sm">{feature.desc}</p>
             </motion.div>
@@ -108,7 +109,7 @@ export default function SaaSSecurity() {
 
       {/* Key Benefits — Staggered Glass Cards */}
       <section className="max-w-7xl mx-auto px-6 py-16">
-        <h2 className="text-3xl font-bold text-center mb-10 bg-gradient-to-r from-teal-400 to-cyan-400 bg-clip-text text-transparent">
+        <h2 className="text-3xl font-bold text-center mb-10 bg-gradient-to-r from-purple-500 to-violet-600 bg-clip-text text-transparent">
           Key Benefits
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
@@ -136,17 +137,17 @@ export default function SaaSSecurity() {
 
       {/* Clean CTA Section — No Box or BG */}
       <section className="text-center py-24">
-        <h2 className="text-4xl font-bold mb-6 bg-gradient-to-r from-teal-400 to-cyan-400 bg-clip-text text-transparent">
+        <h2 className="text-4xl font-bold mb-6 bg-gradient-to-r from-purple-500 to-violet-600 bg-clip-text text-transparent">
           Secure & Compliant SaaS — Anytime, Anywhere
         </h2>
         <p className="text-gray-400 max-w-2xl mx-auto mb-8">
           Partner with us to ensure your SaaS platforms remain secure,
           compliant, and trusted worldwide.
         </p>
-        <Button className="px-10 py-4 bg-gradient-to-r from-teal-500 to-cyan-400 rounded-full hover:shadow-lg transition-all text-lg">
+        <Button variant="enterprise" className="px-10 py-4 rounded-xl text-lg">
           Get SaaS Secure
         </Button>
       </section>
-    </motion.div>
+      </motion.div>
   );
 }

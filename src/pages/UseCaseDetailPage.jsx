@@ -3,6 +3,7 @@ import { useParams, Link } from 'react-router-dom';
 import { useCases } from '@/data/useCases';
 import Layout from '@/components/Layout';
 import { ArrowLeft, ShieldCheck, Clock, Users, Zap, CheckCircle } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 
 const UseCaseDetailPage = () => {
   const { id } = useParams();
@@ -15,13 +16,12 @@ const UseCaseDetailPage = () => {
           <div className="max-w-4xl mx-auto text-center">
             <h1 className="text-4xl font-bold mb-6">Use Case Not Found</h1>
             <p className="text-xl text-gray-300 mb-8">The requested use case could not be found.</p>
-            <Link 
-              to="/use-cases" 
-              className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-xl text-white bg-primary hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary/50 transition-colors"
-            >
-              <ArrowLeft className="mr-2 h-5 w-5" />
-              Back to Use Cases
-            </Link>
+            <Button asChild className="rounded-xl">
+              <Link to="/use-cases" className="inline-flex items-center">
+                <ArrowLeft className="mr-2 h-5 w-5" />
+                Back to Use Cases
+              </Link>
+            </Button>
           </div>
         </div>
       </Layout>
@@ -46,6 +46,21 @@ const UseCaseDetailPage = () => {
 
         {/* Main Content */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+          {/* Breadcrumbs */}
+          <nav aria-label="Breadcrumb" className="mb-8">
+            <ol className="flex items-center gap-2 text-sm text-gray-300">
+              <li>
+                <Link to="/" className="hover:text-white/90 transition-colors">Home</Link>
+              </li>
+              <li aria-hidden="true" className="text-gray-500">/</li>
+              <li>
+                <Link to="/use-cases" className="hover:text-white/90 transition-colors">Use Cases</Link>
+              </li>
+              <li aria-hidden="true" className="text-gray-500">/</li>
+              <li className="text-white" aria-current="page">{useCase.title}</li>
+            </ol>
+          </nav>
+
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
             {/* Left Column - Content */}
             <div className="lg:col-span-2 space-y-12">
@@ -88,21 +103,22 @@ const UseCaseDetailPage = () => {
                     Contact our security experts today to schedule a consultation and learn how we can help protect your {useCase.title.toLowerCase()} infrastructure.
                   </p>
                   <div className="flex flex-col sm:flex-row gap-4">
-                    <a
-                      href="https://cal.com/pentstark/speak-to-an-expert"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-xl text-white bg-gradient-to-r from-purple-600 to-fuchsia-600 hover:from-purple-500 hover:to-fuchsia-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 transition-colors"
-                    >
-                      <Zap className="mr-2 h-5 w-5" />
-                      Book a Consultation
-                    </a>
-                    <Link
-                      to="/contact"
-                      className="inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-xl text-white bg-white/10 hover:bg-white/20 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-white/20 transition-colors"
-                    >
-                      Contact Sales
-                    </Link>
+                    <Button asChild variant="enterprise" className="rounded-xl">
+                      <a
+                        href="https://cal.com/pentstark/speak-to-an-expert"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center justify-center"
+                      >
+                        <Zap className="mr-2 h-5 w-5" />
+                        Book a Consultation
+                      </a>
+                    </Button>
+                    <Button asChild variant="outline" className="rounded-xl">
+                      <Link to="/contact" className="inline-flex items-center justify-center">
+                        Contact Sales
+                      </Link>
+                    </Button>
                   </div>
                 </div>
               </div>
@@ -175,14 +191,16 @@ const UseCaseDetailPage = () => {
                 <p className="text-gray-300 text-sm mb-4">
                   Our security experts are ready to help you secure your {useCase.title.toLowerCase()} infrastructure.
                 </p>
-                <a
-                  href="https://cal.com/pentstark/speak-to-an-expert"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center justify-center w-full px-4 py-2 border border-transparent text-sm font-medium rounded-lg text-white bg-primary hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary/50 transition-colors"
-                >
-                  Schedule a Call
-                </a>
+                <Button asChild className="w-full rounded-lg">
+                  <a
+                    href="https://cal.com/pentstark/speak-to-an-expert"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center justify-center w-full"
+                  >
+                    Schedule a Call
+                  </a>
+                </Button>
               </div>
             </div>
           </div>

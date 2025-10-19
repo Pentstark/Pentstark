@@ -1,5 +1,6 @@
 import React from "react";
 import { motion } from "framer-motion";
+import Layout from "@/components/Layout";
 import {
   Shield,
   Lock,
@@ -16,22 +17,22 @@ import { Button } from "@/components/ui/button";
 import { pageVariants, sectionVariants } from "@/lib/animations";
 
 const textPrimary =
-  "bg-gradient-to-r from-yellow-400 to-amber-600 bg-clip-text text-transparent";
-const bgPrimary = "bg-gradient-to-r from-yellow-400 to-amber-600";
+  "bg-gradient-to-r from-purple-500 to-violet-600 bg-clip-text text-transparent";
+const bgPrimary = "bg-gradient-to-r from-purple-500 to-violet-600";
 
 export default function UseCaseDetailPage() {
   return (
-    <motion.div
-      className="layout-container flex flex-col min-h-screen bg-gradient-to-br from-[#0F1117] via-[#1a1625] to-[#0F1117] text-white px-6 md:px-10 py-20"
-      variants={pageVariants}
-      initial="hidden"
-      animate="visible"
-      exit="exit"
-    >
+      <motion.div
+        className="text-white px-6 md:px-10 py-20"
+        variants={pageVariants}
+        initial="hidden"
+        animate="visible"
+        exit="exit"
+      >
       {/* Hero Section */}
       <section className="relative text-center py-28 px-6 overflow-hidden">
-        <div className="absolute w-72 h-72 bg-yellow-400/20 rounded-full blur-3xl top-10 left-1/4 animate-pulse"></div>
-        <div className="absolute w-96 h-96 bg-amber-500/20 rounded-full blur-3xl bottom-10 right-1/4 animate-pulse"></div>
+        <div className="absolute w-72 h-72 bg-purple-500/20 rounded-full blur-3xl top-10 left-1/4 animate-pulse"></div>
+        <div className="absolute w-96 h-96 bg-violet-500/20 rounded-full blur-3xl bottom-10 right-1/4 animate-pulse"></div>
 
         <motion.h1
           initial={{ y: -50, opacity: 0 }}
@@ -60,10 +61,7 @@ export default function UseCaseDetailPage() {
           transition={{ delay: 0.8 }}
           className="mt-10"
         >
-          <Button
-            asChild
-            className={`${bgPrimary} px-8 py-4 text-lg rounded-full hover:shadow-[0_0_25px_#FFD700] transition-all duration-300`}
-          >
+          <Button asChild variant="enterprise" className="px-8 py-4 text-lg rounded-xl">
             <a href="#more-info">Explore Fintech Security</a>
           </Button>
         </motion.div>
@@ -198,11 +196,11 @@ export default function UseCaseDetailPage() {
               key={index}
               whileHover={{
                 scale: 1.05,
-                boxShadow: "0px 0px 30px rgba(255, 223, 0, 0.7)",
+                boxShadow: "0px 0px 30px rgba(168, 85, 247, 0.7)",
               }}
-              className="relative bg-gradient-to-br from-yellow-400/10 to-amber-600/10 p-8 rounded-2xl shadow-lg transition-transform duration-300 cursor-pointer border border-yellow-400/20 hover:border-yellow-400"
+              className="relative bg-gradient-to-br from-purple-400/10 to-violet-600/10 p-8 rounded-2xl shadow-lg transition-transform duration-300 cursor-pointer border border-purple-400/20 hover:border-purple-400"
             >
-              <h3 className="font-bold text-2xl mb-4 text-yellow-400 border-b border-yellow-400/50 pb-2">
+              <h3 className="font-bold text-2xl mb-4 text-purple-400 border-b border-purple-400/50 pb-2">
                 {item.title}
               </h3>
               <p className="text-gray-300 text-base">{item.text}</p>
@@ -271,7 +269,7 @@ export default function UseCaseDetailPage() {
           </div>
 
           {/* Diagram / Layer Cards Section */}
-          <div className="p-4 sm:p-6 md:p-8 rounded-2xl bg-gradient-to-br from-yellow-400/10 to-transparent border border-yellow-400/20 shadow-lg hover:shadow-[0_0_40px_rgba(255,223,0,0.8)] transition-shadow duration-300">
+          <div className="p-4 sm:p-6 md:p-8 rounded-2xl bg-gradient-to-br from-purple-500/10 to-transparent border border-purple-400/20 shadow-lg hover:shadow-[0_0_40px_rgba(168,85,247,0.8)] transition-shadow duration-300">
             <div className="flex flex-col gap-4 sm:gap-5">
               {["Edge", "Application", "Data", "Operations"].map(
                 (layer, idx) => (
@@ -279,7 +277,7 @@ export default function UseCaseDetailPage() {
                     key={idx}
                     className="p-4 rounded-lg bg-white/5 transition-colors duration-300 break-words"
                   >
-                    <div className="text-sm sm:text-base font-semibold text-yellow-400">
+                    <div className="text-sm sm:text-base font-semibold text-purple-400">
                       {layer}
                     </div>
                     <div className="text-xs sm:text-sm text-gray-300 break-words">
@@ -340,11 +338,11 @@ export default function UseCaseDetailPage() {
               key={index}
               whileHover={{
                 scale: 1.05,
-                boxShadow: "0px 0px 30px rgba(255, 223, 0, 0.7)",
+                boxShadow: "0px 0px 30px rgba(168, 85, 247, 0.7)",
               }}
-              className="relative bg-white/5 p-6 rounded-xl shadow-lg transition-transform duration-300 cursor-pointer hover:outline hover:outline-yellow-400 hover:outline-4"
+              className="relative bg-white/5 p-6 rounded-xl shadow-lg transition-transform duration-300 cursor-pointer hover:outline hover:outline-purple-400 hover:outline-4"
             >
-              <h3 className="font-semibold mb-3 text-xl text-yellow-400">
+              <h3 className="font-semibold mb-3 text-xl text-purple-400">
                 {item.title}
               </h3>
               {item.description.map((desc, i) => (
@@ -385,9 +383,9 @@ export default function UseCaseDetailPage() {
           ].map((item, index) => (
             <div
               key={index}
-              className="p-8 rounded-2xl bg-gradient-to-br from-yellow-400/10 to-transparent border border-yellow-400/30 hover:border-yellow-400/50 hover:shadow-[0_0_20px_rgba(255,223,0,0.6)] transition-all duration-300 shadow-lg cursor-pointer"
+              className="p-8 rounded-2xl bg-gradient-to-br from-purple-500/10 to-transparent border border-purple-400/30 hover:border-purple-400/50 hover:shadow-[0_0_20px_rgba(168,85,247,0.6)] transition-all duration-300 shadow-lg cursor-pointer"
             >
-              <h3 className="font-bold text-2xl mb-4 text-yellow-400 drop-shadow-md">
+              <h3 className="font-bold text-2xl mb-4 text-purple-400 drop-shadow-md">
                 {item.title}
               </h3>
               <p className="text-gray-300 text-sm leading-relaxed">
@@ -402,7 +400,7 @@ export default function UseCaseDetailPage() {
             Response times and SLAs vary by engagement. For production services,
             standard response and remediation SLAs are agreed contractually to
             meet operational risk profiles.
-            <span className="block mt-2 text-yellow-400 font-medium drop-shadow-sm">
+            <span className="block mt-2 text-purple-400 font-medium drop-shadow-sm">
               Fast, effective, and reliable incident management — every time.
             </span>
           </p>
@@ -425,11 +423,11 @@ export default function UseCaseDetailPage() {
           <motion.div
             whileHover={{
               scale: 1.05,
-              boxShadow: "0px 0px 25px rgba(255, 223, 0, 0.6)",
+              boxShadow: "0px 0px 25px rgba(168, 85, 247, 0.6)",
             }}
-            className="p-6 sm:p-8 rounded-2xl shadow-lg transition-transform duration-300 cursor-pointer hover:outline hover:outline-yellow-400 hover:outline-4"
+            className="p-6 sm:p-8 rounded-2xl shadow-lg transition-transform duration-300 cursor-pointer hover:outline hover:outline-purple-400 hover:outline-4"
           >
-            <h3 className="font-semibold text-2xl mb-4 text-yellow-400">
+            <h3 className="font-semibold text-2xl mb-4 text-purple-400">
               Principles
             </h3>
             <ul className="list-disc text-gray-300 space-y-2 pl-6 sm:pl-8 text-sm sm:text-base marker:text-gray-300">
@@ -452,12 +450,12 @@ export default function UseCaseDetailPage() {
           <motion.div
             whileHover={{
               scale: 1.05,
-              boxShadow: "0px 0px 25px rgba(255, 223, 0, 0.6)",
+              boxShadow: "0px 0px 25px rgba(168, 85, 247, 0.6)",
             }}
-            className="p-8 rounded-2xl shadow-lg transition-transform duration-300 cursor-pointer hover:outline hover:outline-yellow-400 hover:outline-4"
+            className="p-8 rounded-2xl shadow-lg transition-transform duration-300 cursor-pointer hover:outline hover:outline-purple-400 hover:outline-4"
           >
             {" "}
-            <h3 className="font-semibold text-2xl mb-4 text-yellow-400">
+            <h3 className="font-semibold text-2xl mb-4 text-purple-400">
               {" "}
               Privacy Safeguards{" "}
             </h3>{" "}
@@ -513,15 +511,15 @@ export default function UseCaseDetailPage() {
                   key={index}
                   whileHover={{
                     scale: 1.02,
-                    boxShadow: "0px 0px 20px rgba(255, 223, 0, 0.4)",
+                    boxShadow: "0px 0px 20px rgba(168, 85, 247, 0.4)",
                   }}
-                  className="bg-white/5 p-6 rounded-2xl shadow-lg transition-transform duration-300 cursor-pointer border border-transparent hover:border-yellow-400 w-full"
+                  className="bg-white/5 p-6 rounded-2xl shadow-lg transition-transform duration-300 cursor-pointer border border-transparent hover:border-purple-400 w-full"
                   onClick={() => setOpen(!open)}
                 >
                   {/* Question */}
                   <div className="flex justify-between items-center">
                     <span className="font-semibold text-lg">{item.q}</span>
-                    <span className="ml-2 text-yellow-400 text-xl">
+                    <span className="ml-2 text-purple-400 text-xl">
                       {open ? "×" : "+"}
                     </span>
                   </div>
@@ -566,19 +564,14 @@ export default function UseCaseDetailPage() {
           threats.
         </p>
 
-        <Button asChild className="group">
-          <a
-            href="#more-info"
-            className={`${bgPrimary} text-white px-8 py-3 rounded-full flex items-center space-x-3 font-semibold transition-all duration-300 transform hover:scale-105 hover:shadow-xl`}
-          >
+        <Button asChild variant="enterprise" className="group rounded-xl">
+          <a href="#more-info" className="px-8 py-3 flex items-center space-x-3 font-semibold transition-all duration-300 transform hover:scale-105">
             <span>Learn More</span>
-            <span className="group-hover:translate-x-2 transition-transform text-lg">
-              →
-            </span>
+            <span className="group-hover:translate-x-2 transition-transform text-lg">→</span>
           </a>
         </Button>
       </motion.div>
-    </motion.div>
+      </motion.div>
   );
 }
 
@@ -587,12 +580,12 @@ function CardFeature({ icon: Icon, title, children, textPrimary }) {
     <motion.div
       whileHover={{
         scale: 1.05,
-        boxShadow: "0px 0px 25px rgba(255, 223, 0, 0.7)",
+        boxShadow: "0px 0px 25px rgba(168, 85, 247, 0.7)",
       }}
-      className="p-6 rounded-xl shadow-lg bg-white/5 transition-transform duration-300 cursor-pointer hover:outline hover:outline-yellow-400 hover:outline-4"
+      className="p-6 rounded-xl shadow-lg bg-white/5 transition-transform duration-300 cursor-pointer hover:outline hover:outline-purple-400 hover:outline-4"
     >
       <div className="mb-4">
-        <Icon className="text-yellow-400" size={28} />
+        <Icon className="text-purple-400" size={28} />
       </div>
       <h3 className={`font-semibold text-xl mb-2 ${textPrimary}`}>{title}</h3>
       <p className="text-gray-300 text-sm">{children}</p>

@@ -1,5 +1,6 @@
 import React from "react";
 import { motion } from "framer-motion";
+import Layout from "@/components/Layout";
 import {
   Smartphone,
   Shield,
@@ -12,12 +13,12 @@ import { Button } from "@/components/ui/button";
 
 export default function AppSecurityAssessment() {
   return (
-    <motion.div
-      className="layout-container flex flex-col min-h-screen bg-gradient-to-br from-[#0F1117] via-[#1a1625] to-[#0F1117] text-white overflow-hidden"
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 0.8 }}
-    >
+      <motion.div
+        className="text-white overflow-hidden"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.8 }}
+      >
       {/* Hero Section with Bigger Layout */}
       <section className="relative py-36 px-6">
         <div className="relative flex flex-col md:flex-row items-center justify-center max-w-6xl mx-auto gap-16">
@@ -27,7 +28,7 @@ export default function AppSecurityAssessment() {
               initial={{ y: -40, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ duration: 1 }}
-              className="text-7xl font-extrabold bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent text-center md:text-left"
+              className="text-7xl font-extrabold bg-gradient-to-r from-purple-500 to-violet-600 bg-clip-text text-transparent text-center md:text-left"
             >
               App Security Assessment
             </motion.h1>
@@ -41,7 +42,7 @@ export default function AppSecurityAssessment() {
               applications with precision and intelligence.
             </motion.p>
             <motion.div className="mt-10 flex justify-center md:justify-start">
-              <Button className="bg-gradient-to-r from-cyan-500 to-blue-600 px-12 py-6 text-xl rounded-full hover:shadow-[0_0_35px_#00FFFF] transition-all duration-300">
+              <Button variant="enterprise" className="px-12 py-6 text-xl rounded-xl">
                 Start Assessment →
               </Button>
             </motion.div>
@@ -49,7 +50,7 @@ export default function AppSecurityAssessment() {
 
           {/* Image */}
           <div className="md:w-1/2 flex justify-center relative">
-            <div className="absolute -top-28 w-96 h-96 bg-cyan-500/20 blur-3xl rounded-full"></div>
+            <div className="absolute -top-28 w-96 h-96 bg-purple-500/20 blur-3xl rounded-full"></div>
             <img
               src="https://cdn-icons-png.flaticon.com/512/1055/1055672.png"
               alt="App Security Illustration"
@@ -61,7 +62,7 @@ export default function AppSecurityAssessment() {
 
       {/* Features Section — Glass Hover Cards */}
       <section className="max-w-7xl mx-auto px-6 py-16">
-        <h2 className="text-4xl font-bold text-center mb-14 bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">
+        <h2 className="text-4xl font-bold text-center mb-14 bg-gradient-to-r from-purple-500 to-violet-600 bg-clip-text text-transparent">
           App Security Core Features
         </h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
@@ -100,10 +101,10 @@ export default function AppSecurityAssessment() {
             <motion.div
               key={i}
               whileHover={{ scale: 1.05, y: -5 }}
-              className="bg-white/5 border border-white/10 p-8 rounded-2xl shadow-lg backdrop-blur-lg hover:shadow-[0_0_20px_#00FFFF40] transition-all duration-300"
+              className="bg-white/5 border border-white/10 p-8 rounded-2xl shadow-lg backdrop-blur-lg hover:shadow-[0_0_20px_rgba(168,85,247,0.4)] transition-all duration-300"
             >
               <div className="flex flex-col items-center text-center space-y-4">
-                <feature.icon className="w-10 h-10 text-cyan-400" />
+                <feature.icon className="w-10 h-10 text-purple-400" />
                 <h3 className="text-xl font-semibold">{feature.title}</h3>
                 <p className="text-gray-400 text-sm">{feature.desc}</p>
               </div>
@@ -114,7 +115,7 @@ export default function AppSecurityAssessment() {
 
       {/* Key Benefits Section — Glass Mosaic */}
       <section className="max-w-7xl mx-auto px-6 py-16">
-        <h2 className="text-3xl font-bold text-center mb-10 bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">
+        <h2 className="text-3xl font-bold text-center mb-10 bg-gradient-to-r from-purple-500 to-violet-600 bg-clip-text text-transparent">
           Key Benefits
         </h2>
         <div className="flex flex-wrap gap-6 justify-center">
@@ -141,17 +142,17 @@ export default function AppSecurityAssessment() {
 
       {/* Call to Action Section */}
       <section className="text-center py-24">
-        <h2 className="text-4xl font-bold mb-6 bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">
+        <h2 className="text-4xl font-bold mb-6 bg-gradient-to-r from-purple-500 to-violet-600 bg-clip-text text-transparent">
           Secure Your Applications Today
         </h2>
         <p className="text-gray-400 max-w-2xl mx-auto mb-8">
           Start your app security assessment now and protect your digital
           ecosystem.
         </p>
-        <Button className="px-10 py-4 bg-gradient-to-r from-cyan-500 to-blue-600 rounded-full hover:shadow-[0_0_20px_#00FFFF] transition-all text-lg">
+        <Button variant="enterprise" className="px-10 py-4 rounded-xl text-lg">
           Get Started
         </Button>
       </section>
-    </motion.div>
+      </motion.div>
   );
 }

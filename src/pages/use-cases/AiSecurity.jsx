@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
+import Layout from "@/components/Layout";
 import {
   Shield,
   Cpu,
@@ -17,12 +18,12 @@ export default function AiSecurity() {
   };
 
   return (
-    <motion.div
-      className="layout-container flex flex-col min-h-screen bg-gradient-to-br from-[#0F1117] via-[#1a1625] to-[#0F1117] text-white overflow-hidden"
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 0.8 }}
-    >
+      <motion.div
+        className="text-white overflow-hidden"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.8 }}
+      >
       {/* Hero Section */}
       <section className="relative text-center py-28 px-6 overflow-hidden">
         {/* Floating Circles */}
@@ -54,7 +55,8 @@ export default function AiSecurity() {
           className="mt-10 relative"
         >
           <Button
-            className="bg-gradient-to-r from-purple-500 to-violet-600 px-8 py-4 text-lg rounded-full hover:shadow-[0_0_25px_#9B59B6] transition-all duration-300"
+            variant="enterprise"
+            className="px-8 py-4 text-lg rounded-xl"
             onClick={() =>
               document
                 .getElementById("core-capabilities")
@@ -301,10 +303,10 @@ export default function AiSecurity() {
           faster response times — securing your digital infrastructure for
           tomorrow’s threats.
         </p>
-        <Button asChild className="group">
+        <Button asChild variant="enterprise" className="group rounded-xl">
           <a
             href="#get-started"
-            className="px-8 py-3 bg-gradient-to-r from-purple-500 to-violet-600 rounded-full flex items-center space-x-3 font-semibold transition-all duration-300 transform hover:scale-105 hover:shadow-[0_0_25px_#9B59B6]"
+            className="px-8 py-3 rounded-xl flex items-center space-x-3 font-semibold transition-all duration-300 transform hover:scale-105"
           >
             <span>Get Started with AI Security</span>
             <span className="group-hover:translate-x-2 transition-transform text-lg">
@@ -313,6 +315,6 @@ export default function AiSecurity() {
           </a>
         </Button>
       </section>
-    </motion.div>
+      </motion.div>
   );
 }

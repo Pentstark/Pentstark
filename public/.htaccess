@@ -1,3 +1,17 @@
+RewriteEngine On
+RewriteBase /
+
+# Don't rewrite real files or directories
+RewriteCond %{REQUEST_FILENAME} -f [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^ - [L]
+
+# Don't rewrite built assets (js, css, images, fonts)
+RewriteCond %{REQUEST_URI} \.(?:js|mjs|css|map|png|jpe?g|gif|svg|webp|ico|woff2?|ttf|eot)$ [NC]
+RewriteRule ^ - [L]
+
+# Single Page App fallback
+RewriteRule . /index.html [L]
 <IfModule mod_rewrite.c>
   RewriteEngine On
   RewriteBase /

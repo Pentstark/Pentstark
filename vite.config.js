@@ -205,7 +205,8 @@ logger.error = (msg, options) => {
 export default defineConfig({
 	customLogger: logger,
 	plugins: [react(), addTransformIndexHtml],
-	base: './', // Important: Use relative paths for production
+	// Use absolute paths so chunk URLs resolve from site root. Relative './' breaks when refreshing deep routes
+	base: '/',
 	server: {
 		cors: true,
 		headers: {
